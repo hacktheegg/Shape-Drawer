@@ -20,13 +20,31 @@ namespace Shape_Drawer
             originPoint = Tuple.Create(0, 0);
         }
         
-        public static string[][] SquareDrawer(Square Square, string[][] board)
+        public static string[][] Create(Square Square, string[][] board)
         {
-            int i;
+            int X;
+            int Y;
 
-            for (i = 0; i < Square.width; i++)
+            //bottom side
+            for (X = 0; X < Square.width; X++)
             {
-                board[Square.originPoint.Item2][Square.originPoint.Item1 + i] = "██";
+                board[Square.originPoint.Item2][Square.originPoint.Item1 + X] = "██";
+            }
+            //top side
+            for (X = 0; X < Square.width; X++)
+            {
+                board[Square.originPoint.Item2 + Square.height - 1][Square.originPoint.Item1 + X] = "██";
+            }
+
+            //left side
+            for (Y = 0; Y < Square.height; Y++)
+            {
+                board[Square.originPoint.Item2 + Y][Square.originPoint.Item1] = "██";
+            }
+            //right side
+            for (Y = 0; Y < Square.height; Y++)
+            {
+                board[Square.originPoint.Item2 + Y][Square.originPoint.Item1 + Square.width - 1] = "██";
             }
 
             return board;
@@ -62,20 +80,34 @@ namespace Shape_Drawer
 
     public class Board
     {
-        public static string[][] BoardCreate(int size)
+        public static string[][] Create(int size)
         {
-            string[] returnValueWidth = new string[size];
 
             string[][] returnValue = new string[size][];
 
+
+
             for (int i = 0; i < returnValue.Length; i++)
             {
-                returnValue[i] = returnValueWidth;
+                returnValue[i] = new string[size];
             }
+
+
+
+            for (int i = 0; i < returnValue.Length; i++)
+            {
+                for (int j = 0; j < returnValue[i].Length; j++)
+                {
+                    returnValue[i][j] = "  ";
+                }
+            }
+
+
+
             return returnValue;
         }
 
-        public static void PrintBoard(string[][] board)
+        public static void Print(string[][] board)
         {
             for (int i = board.Length - 1; i > -1; i--)
             {
@@ -83,10 +115,10 @@ namespace Shape_Drawer
                 {
                     if (board[i][j] == null)
                     {
-                        Console.Write("  ,");
+                        Console.Write("  ");
                     } else
                     {
-                        Console.Write(board[i][j] + ",");
+                        Console.Write(board[i][j]);
                     }
                 }
                 Console.WriteLine("");
