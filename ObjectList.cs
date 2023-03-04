@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -54,7 +55,7 @@ namespace Shape_Drawer
 
     class Circle
     {
-        int radius = 0;
+        public int radius = 0;
         public Tuple<int, int> originPoint;
         public Circle()
         {
@@ -62,6 +63,35 @@ namespace Shape_Drawer
             originPoint = Tuple.Create(0, 0);
         }
 
+        public static string[][] Create(Circle Circle, string[][] board)
+        {
+
+            for (double i = 0; i < 361; i++)
+            {
+                //copied from Baconzilla#1103 who prob found it on StackOverflow
+                //adaped from Python of course
+                //original code:
+                // dX = distance*math.sin(math.radians(angle))
+                // dY = distance*math.cos(math.radians(angle))
+
+                int X = (int)(Convert.ToDouble(Circle.radius) * Math.Sin(Math.PI / Convert.ToDouble(180 * i)));
+                int Y = (int)(Convert.ToDouble(Circle.radius) * Math.Cos(Math.PI / Convert.ToDouble(180 * i)));
+
+                Console.WriteLine(Convert.ToString(i));
+                board
+                    [Circle.originPoint.Item2 + Y]
+                    [Circle.originPoint.Item1 + X]
+                = "██";
+            }
+
+
+
+
+
+
+
+            return board;
+        }
     }
     class Triangle
     {
