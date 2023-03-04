@@ -80,16 +80,16 @@ namespace Shape_Drawer
 
     public class Board
     {
-        public static string[][] Create(int size)
+        public static string[][] Create(int Width, int Height)
         {
 
-            string[][] returnValue = new string[size][];
+            string[][] returnValue = new string[Height][];
 
 
 
             for (int i = 0; i < returnValue.Length; i++)
             {
-                returnValue[i] = new string[size];
+                returnValue[i] = new string[Width];
             }
 
 
@@ -98,7 +98,7 @@ namespace Shape_Drawer
             {
                 for (int j = 0; j < returnValue[i].Length; j++)
                 {
-                    returnValue[i][j] = "  ";
+                    returnValue[i][j] = "::";
                 }
             }
 
@@ -109,7 +109,7 @@ namespace Shape_Drawer
 
         public static void Print(string[][] board)
         {
-            for (int i = board.Length - 1; i > -1; i--)
+            for (int i = 0; i < board.Length; i++)
             {
                 for (int j = 0; j < board[i].Length; j++)
                 {
@@ -121,7 +121,7 @@ namespace Shape_Drawer
                         Console.Write(board[i][j]);
                     }
                 }
-                Console.WriteLine("");
+                Console.WriteLine(" ");
             }
         }
     }

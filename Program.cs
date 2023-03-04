@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 using Shape_Drawer;
 
@@ -16,23 +17,33 @@ class Program
     {
         int tempInt;
 
-        FailedInputBoardSize:
-            Console.Write("Size of board (square): ");
-            string SizeOfBoardInput = Console.ReadLine();
 
-        if (!int.TryParse(SizeOfBoardInput, out tempInt))
+        FailedInputBoardWidth:
+            Console.Write("Size of board (Width): ");
+            string SizeOfBoardWidth = Console.ReadLine();
+
+        if (!int.TryParse(SizeOfBoardWidth, out tempInt))
         { 
-            goto FailedInputBoardSize; 
+            goto FailedInputBoardWidth; 
+        }
+
+        FailedInputBoardHeight:
+        Console.Write("Size of board (Width): ");
+        string SizeOfBoardHeight = Console.ReadLine();
+
+        if (!int.TryParse(SizeOfBoardHeight, out tempInt))
+        {
+            goto FailedInputBoardHeight;
         }
 
 
-        string[][] board = Shape_Drawer.Board.Create(int.Parse(SizeOfBoardInput));
+        string[][] board = Shape_Drawer.Board.Create(int.Parse(SizeOfBoardWidth), int.Parse(SizeOfBoardHeight));
 
 
         Square square = new Square();
-        square.width = 5;
-        square.height = 5;
-        square.originPoint = Tuple.Create(1,1);
+        square.width = int.Parse(SizeOfBoardWidth);
+        square.height = int.Parse(SizeOfBoardHeight);
+        square.originPoint = Tuple.Create(0,0);
 
         
         //string[][] board = new string[5][];
