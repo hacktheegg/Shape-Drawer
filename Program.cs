@@ -18,10 +18,9 @@ class Program
         int tempInt;
 
 
-    FailedInputBoardWidth:
-        Console.Write("Size of board (Width): ");
-        string SizeOfBoardWidth = "50";
-            //Console.ReadLine();
+        FailedInputBoardWidth:
+            Console.Write("Size of board (Width): ");
+            string SizeOfBoardWidth = Console.ReadLine();
 
         if (!int.TryParse(SizeOfBoardWidth, out tempInt))
         { 
@@ -29,9 +28,8 @@ class Program
         }
 
         FailedInputBoardHeight:
-        Console.Write("Size of board (Height): ");
-        string SizeOfBoardHeight = "50";
-        //Console.ReadLine();
+            Console.Write("Size of board (Height): ");
+            string SizeOfBoardHeight = Console.ReadLine();
 
         if (!int.TryParse(SizeOfBoardHeight, out tempInt))
         {
@@ -42,18 +40,19 @@ class Program
         string[][] board = Shape_Drawer.Board.Create(int.Parse(SizeOfBoardWidth), int.Parse(SizeOfBoardHeight));
 
 
-        Square square = new Square();
-        square.width = int.Parse(SizeOfBoardWidth);
-        square.height = int.Parse(SizeOfBoardHeight);
-        square.originPoint = Tuple.Create(0,0);
 
-        board = Square.Create(square, board);
+        Square Border = new Square();
+        Border.width = int.Parse(SizeOfBoardWidth);
+        Border.height = int.Parse(SizeOfBoardHeight);
+        Border.originPoint = Tuple.Create(0,0);
+        board = Square.Create(Border, board);
+
 
 
         Circle circle = new Circle();
-        circle.radius = 5;
-        circle.originPoint = Tuple.Create(20,20);
-
+        circle.radius = 20;
+        circle.originPoint = Tuple.Create(2,2);
+        
         board = Circle.Create(circle, board);
 
 

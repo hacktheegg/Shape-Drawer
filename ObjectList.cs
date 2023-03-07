@@ -66,7 +66,7 @@ namespace Shape_Drawer
         public static string[][] Create(Circle Circle, string[][] board)
         {
 
-            for (double i = 0; i < 361; i++)
+            for (double i = 1; i < 361; i++)
             {
                 //copied from Baconzilla#1103 who prob found it on StackOverflow
                 //adaped from Python of course
@@ -74,13 +74,12 @@ namespace Shape_Drawer
                 // dX = distance*math.sin(math.radians(angle))
                 // dY = distance*math.cos(math.radians(angle))
 
-                int X = (int)(Convert.ToDouble(Circle.radius) * Math.Sin(Math.PI / Convert.ToDouble(180 * i)));
-                int Y = (int)(Convert.ToDouble(Circle.radius) * Math.Cos(Math.PI / Convert.ToDouble(180 * i)));
+                int X = (int)(Convert.ToDouble(Circle.radius) * Math.Sin(i));
+                int Y = (int)(Convert.ToDouble(Circle.radius) * Math.Cos(i));
 
-                Console.WriteLine(Convert.ToString(i));
                 board
-                    [Circle.originPoint.Item2 + Y]
-                    [Circle.originPoint.Item1 + X]
+                    [Circle.originPoint.Item2 + Y + Circle.radius]
+                    [Circle.originPoint.Item1 + X + Circle.radius]
                 = "██";
             }
 
