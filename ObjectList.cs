@@ -14,11 +14,11 @@ namespace Shape_Drawer
         public int height;
         public Tuple<int, int> originPoint;
 
-        public Square()
+        public Square(int widthInput, int heightInput, Tuple<int, int> originPointInput)
         {
-            width = 0;
-            height = 0;
-            originPoint = Tuple.Create(0, 0);
+            width = widthInput;
+            height = heightInput;
+            originPoint = originPointInput;
         }
         
         public static string[][] Create(Square Square, string[][] board)
@@ -55,17 +55,17 @@ namespace Shape_Drawer
 
     class Circle
     {
-        public int radius = 0;
+        public int radius;
         public Tuple<int, int> originPoint;
-        public Circle()
+        public Circle(int radiusInput, Tuple<int, int> originPointInput)
         {
-            radius = 0;
-            originPoint = Tuple.Create(0, 0);
+            radius = radiusInput;
+            originPoint = originPointInput;
         }
 
         public static string[][] Create(Circle Circle, string[][] board)
         {
-
+            ////////
             for (double i = 1; i < 361; i++)
             {
                 //copied from Baconzilla#1103 who prob found it on StackOverflow
@@ -82,26 +82,21 @@ namespace Shape_Drawer
                     [Circle.originPoint.Item1 + X + Circle.radius]
                 = "██";
             }
-
-
-
-
-
-
+            ////////
 
             return board;
         }
     }
     class Triangle
     {
-        public Tuple<int, int> pointTop;
+        public Tuple<int, int> pointOne;
         public Tuple<int, int> pointTwo;
-        public Tuple<int, int> originPoint;
+        public Tuple<int, int> pointThree;
         public Triangle()
         {
-            pointTop = Tuple.Create(0, 0);
+            pointOne = Tuple.Create(0, 0);
             pointTwo = Tuple.Create(0, 0);
-            originPoint = Tuple.Create(0, 0);
+            pointThree = Tuple.Create(0, 0);
         }
     }
 
@@ -127,7 +122,7 @@ namespace Shape_Drawer
             {
                 for (int j = 0; j < returnValue[i].Length; j++)
                 {
-                    returnValue[i][j] = "::";
+                    returnValue[i][j] = "  ";
                 }
             }
 
@@ -150,7 +145,7 @@ namespace Shape_Drawer
                         Console.Write(board[i][j]);
                     }
                 }
-                Console.WriteLine(" ");
+                Console.Write("\n");
             }
         }
     }
