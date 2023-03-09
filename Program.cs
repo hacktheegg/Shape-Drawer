@@ -15,8 +15,9 @@ class Program
 
     static void Main(string[] args)
     {
-        int tempInt;
 
+
+        int tempInt;
 
         FailedInputBoardWidth:
             Console.Write("Size of board (Width): ");
@@ -37,21 +38,37 @@ class Program
         }
 
 
+
+
+
+        //New Board
         string[][] board = Shape_Drawer.Board.Create(int.Parse(SizeOfBoardWidth), int.Parse(SizeOfBoardHeight));
 
 
-
+        //Adds Border
         Square Border = new Square(int.Parse(SizeOfBoardWidth), int.Parse(SizeOfBoardHeight), Tuple.Create(0,0));
         board = Square.Create(Border, board);
 
+        //Shape 1
+        /*Triangle triangle = new Triangle(
+            Tuple.Create(int.Parse(SizeOfBoardWidth) / 2, 1), 
+            Tuple.Create(1, int.Parse(SizeOfBoardHeight) - 2), 
+            Tuple.Create(int.Parse(SizeOfBoardWidth) - 2, int.Parse(SizeOfBoardHeight) - 2)
+        );
+        board = Triangle.Create(triangle, board);*/
+
+        Line line = new Line(
+            Tuple.Create(15, 1),
+            Tuple.Create(15, 28)
+        );
+        board = Line.Create(line, board);
 
 
-        Square square = new Square(9, 15, Tuple.Create(2,2));
-        board = Square.Create(square, board);
 
-
-        board = smoothBoard(board);
+        //board = smoothBoard(board);
         
+
+
         Shape_Drawer.Board.Print(board);
 
         Console.ReadKey(true);
@@ -102,3 +119,5 @@ class Program
 
 //╤╤╡│
 //│╞╧╧
+
+//◖◗

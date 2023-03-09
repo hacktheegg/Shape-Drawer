@@ -92,11 +92,91 @@ namespace Shape_Drawer
         public Tuple<int, int> pointOne;
         public Tuple<int, int> pointTwo;
         public Tuple<int, int> pointThree;
-        public Triangle()
+        public Triangle(Tuple<int, int> pnt1, Tuple<int, int> pnt2, Tuple<int, int> pnt3)
         {
-            pointOne = Tuple.Create(0, 0);
-            pointTwo = Tuple.Create(0, 0);
-            pointThree = Tuple.Create(0, 0);
+            pointOne = pnt1;
+            pointTwo = pnt2;
+            pointThree = pnt3;
+        }
+        public static string[][] Create(Triangle triangle, string[][] board)
+        {
+            Line line = new Line(triangle.pointOne, triangle.pointTwo);
+            board = Line.Create(line, board);
+            line = new Line(triangle.pointTwo, triangle.pointThree);
+            board = Line.Create(line, board);
+            line = new Line(triangle.pointThree, triangle.pointOne);
+            board = Line.Create(line, board);
+
+            return board;
+        }
+    }
+    class Line
+    {
+        public Tuple<int, int> pointOne;
+        public Tuple<int, int> pointTwo;
+        public Line(Tuple<int, int> pnt1, Tuple<int, int> pnt2)
+        {
+            pointOne = pnt1;
+            pointTwo = pnt2;
+        }
+        public static string[][] Create(Line line, string[][] board)
+        {
+            //where got from
+            //https://www.uobabylon.edu.iq/eprints/publication_2_22893_6215.pdf
+
+
+            int X = line.pointOne.Item1;
+            int Y = line.pointOne.Item2;
+
+            int AbsX = Math.Abs(line.pointTwo.Item1 - line.pointOne.Item1);
+            int AbsY = Math.Abs(line.pointTwo.Item2 - line.pointOne.Item2);
+
+            int Sign1 = Math.Sign(line.pointTwo.Item1 - line.pointOne.Item1);
+            int Sign2 = Math.Sign(line.pointTwo.Item2 - line.pointOne.Item2);
+
+            int Interchange;
+            if (AbsY > AbsX)
+            {
+                int temp = AbsX;
+                AbsX = AbsY;
+                AbsY= temp;
+                Interchange = 1;
+            } else
+            {
+                Interchange = 0;
+            }
+
+            int E = (2 * AbsY) - AbsX;
+            int A = 2 * AbsY;
+            int B = (2 * AbsY) - (2 * AbsX);
+
+            board[Y][X] = "╡╞";
+
+            for (int i = 1; i < AbsX; i++)
+            {
+                if (E < 0)
+                {
+                    if (Interchange == 1)
+                    {
+                        Y = Y + Sign2;
+                    } else
+                    {
+                        X = X + Sign1;
+                        E = E + A;
+                    }
+                } else
+                {
+                    Y = Y + Sign2;
+                    X = X + Sign1;
+                    E = E + B;
+                }
+
+                Board.Print(board);
+                board[Y][X] = "╡╞";
+            }
+
+
+            return board;
         }
     }
 
