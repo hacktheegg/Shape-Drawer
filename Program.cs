@@ -58,8 +58,8 @@ class Program
         board = Triangle.Create(triangle, board);*/
 
         Line line = new Line(
-            Tuple.Create(15, 1),
-            Tuple.Create(15, 28)
+            Tuple.Create(5, 5),
+            Tuple.Create(10, 11)
         );
         board = Line.Create(line, board);
 

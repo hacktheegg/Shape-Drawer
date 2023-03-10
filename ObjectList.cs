@@ -121,60 +121,78 @@ namespace Shape_Drawer
         }
         public static string[][] Create(Line line, string[][] board)
         {
-            //where got from
-            //https://www.uobabylon.edu.iq/eprints/publication_2_22893_6215.pdf
+
+            bool X2Flip = false;
+            bool Y2Flip = false;
+
+            bool Flip12Points = false;
 
 
-            int X = line.pointOne.Item1;
-            int Y = line.pointOne.Item2;
 
-            int AbsX = Math.Abs(line.pointTwo.Item1 - line.pointOne.Item1);
-            int AbsY = Math.Abs(line.pointTwo.Item2 - line.pointOne.Item2);
+            int X1 = line.pointOne.Item1;
+            int Y1 = line.pointOne.Item2;
 
-            int Sign1 = Math.Sign(line.pointTwo.Item1 - line.pointOne.Item1);
-            int Sign2 = Math.Sign(line.pointTwo.Item2 - line.pointOne.Item2);
+            int X2 = line.pointTwo.Item1;
+            int Y2 = line.pointTwo.Item2;
+            
 
-            int Interchange;
-            if (AbsY > AbsX)
+
+            if (X2 < X1)
             {
-                int temp = AbsX;
-                AbsX = AbsY;
-                AbsY= temp;
-                Interchange = 1;
-            } else
+                X2Flip = true;
+                X2 = Math.Abs(X2 - X1) + X1;
+            }
+            if (Y2 < Y1)
             {
-                Interchange = 0;
+                Y2Flip = true;
+                Y2 = Math.Abs(Y2 - Y1) + Y1;
             }
 
-            int E = (2 * AbsY) - AbsX;
-            int A = 2 * AbsY;
-            int B = (2 * AbsY) - (2 * AbsX);
 
-            board[Y][X] = "╡╞";
-
-            for (int i = 1; i < AbsX; i++)
+            if ((X2 - X1) < (Y2 - Y1))
             {
-                if (E < 0)
+                Flip12Points = true;
+
+                int Temp = X1;
+                X1 = X2;
+                X2 = Temp;
+
+                Temp = Y1;
+                Y1 = Y2;
+                Y2 = Temp;
+            }
+
+
+
+            int slope = (Y2 - Y1) / (X2 - X1);
+
+            /*for (int i = X1; i < X2; i++)
+            {
+                if (interval >= slope)
                 {
-                    if (Interchange == 1)
-                    {
-                        Y = Y + Sign2;
-                    } else
-                    {
-                        X = X + Sign1;
-                        E = E + A;
-                    }
-                } else
-                {
-                    Y = Y + Sign2;
-                    X = X + Sign1;
-                    E = E + B;
+                    Y++;
+                    interval = 0;
                 }
 
-                Board.Print(board);
                 board[Y][X] = "╡╞";
-            }
 
+                interval++;
+            }*/
+
+            return board;
+        }
+        internal static string[][] PixelDraw(
+            bool X2Flip, bool Y2Flip, bool Flip12Points,
+            int X1, int Y1, int X2, int Y2,
+            string[][] board, int slope
+        )
+        {
+            int X = X1;
+
+            for (X; X < X2; X++)
+            {
+
+            }
 
             return board;
         }
