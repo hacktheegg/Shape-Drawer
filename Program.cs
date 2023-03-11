@@ -50,23 +50,13 @@ class Program
         board = Square.Create(Border, board);
 
         //Shape 1
-        /*Triangle triangle = new Triangle(
+        Triangle triangle = new Triangle(
             Tuple.Create(int.Parse(SizeOfBoardWidth) / 2, 1), 
             Tuple.Create(1, int.Parse(SizeOfBoardHeight) - 2), 
             Tuple.Create(int.Parse(SizeOfBoardWidth) - 2, int.Parse(SizeOfBoardHeight) - 2)
         );
-        board = Triangle.Create(triangle, board);*/
+        board = Triangle.Create(triangle, board);
 
-        Line line = new Line(
-            Tuple.Create(5, 5),
-            Tuple.Create(10, 11)
-        );
-        board = Line.Create(line, board);
-
-
-
-        //board = smoothBoard(board);
-        
 
 
         Shape_Drawer.Board.Print(board);

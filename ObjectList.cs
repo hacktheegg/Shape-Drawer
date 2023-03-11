@@ -122,76 +122,36 @@ namespace Shape_Drawer
         public static string[][] Create(Line line, string[][] board)
         {
 
-            bool X2Flip = false;
-            bool Y2Flip = false;
+            //I dont care if this is chatGPT, I tried 3 different methods that all didnt work
 
-            bool Flip12Points = false;
+            //there was the one that was used in a minecraft video (only drew x,y lines no diagonals)
 
+            //there was also the one that used the default slope algorithm and flipped it so it worked
+            // in all eight radians (only a dot was created)
 
-
-            int X1 = line.pointOne.Item1;
-            int Y1 = line.pointOne.Item2;
-
-            int X2 = line.pointTwo.Item1;
-            int Y2 = line.pointTwo.Item2;
-            
-
-
-            if (X2 < X1)
-            {
-                X2Flip = true;
-                X2 = Math.Abs(X2 - X1) + X1;
-            }
-            if (Y2 < Y1)
-            {
-                Y2Flip = true;
-                Y2 = Math.Abs(Y2 - Y1) + Y1;
-            }
-
-
-            if ((X2 - X1) < (Y2 - Y1))
-            {
-                Flip12Points = true;
-
-                int Temp = X1;
-                X1 = X2;
-                X2 = Temp;
-
-                Temp = Y1;
-                Y1 = Y2;
-                Y2 = Temp;
-            }
+            //and finally i tried to get an angle and length instead, but i want it to be as easy to use
+            // as possible and having points is the easiest way
 
 
 
-            int slope = (Y2 - Y1) / (X2 - X1);
+            double DifferenceX = line.pointTwo.Item1 - line.pointOne.Item1;
+            double DifferenceY = line.pointTwo.Item2 - line.pointOne.Item2;
 
-            /*for (int i = X1; i < X2; i++)
-            {
-                if (interval >= slope)
-                {
-                    Y++;
-                    interval = 0;
-                }
+            double angle = Math.Atan2(DifferenceY, DifferenceX);
 
-                board[Y][X] = "╡╞";
+            double angle_degrees = angle * 180 / Math.PI;
 
-                interval++;
-            }*/
 
-            return board;
-        }
-        internal static string[][] PixelDraw(
-            bool X2Flip, bool Y2Flip, bool Flip12Points,
-            int X1, int Y1, int X2, int Y2,
-            string[][] board, int slope
-        )
-        {
-            int X = X1;
+            double distance = Math.Sqrt(Math.Pow(line.pointTwo.Item1 - line.pointOne.Item1, 2) + Math.Pow(line.pointTwo.Item2 - line.pointOne.Item2, 2));
 
-            for (X; X < X2; X++)
+
+            for (int i = 0; i < distance; i++)
             {
 
+                int X = (int)(Convert.ToDouble(i) * Math.Sin(angle));
+                int Y = (int)(Convert.ToDouble(i) * Math.Cos(angle));
+
+                board[X + line.pointOne.Item2][Y + line.pointOne.Item1] = "╡╞";
             }
 
             return board;
@@ -208,12 +168,10 @@ namespace Shape_Drawer
             string[][] returnValue = new string[Height][];
 
 
-
             for (int i = 0; i < returnValue.Length; i++)
             {
                 returnValue[i] = new string[Width];
             }
-
 
 
             for (int i = 0; i < returnValue.Length; i++)
@@ -223,8 +181,6 @@ namespace Shape_Drawer
                     returnValue[i][j] = "  ";
                 }
             }
-
-
 
             return returnValue;
         }
