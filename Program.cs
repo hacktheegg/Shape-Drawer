@@ -57,9 +57,9 @@ class Program
         );
         board = Triangle.Create(triangle, board);
 
+        board = smoothBoard(board);
 
-
-        Shape_Drawer.Board.Print(board);
+        Board.Print(board);
 
         Console.ReadKey(true);
     }
@@ -68,16 +68,105 @@ class Program
     {
         string[][] returnBoard = new string[board.Length][];
 
-        for (int i = 0; i < board.Length; i++)
-        {
-            for (int j = 0; j < board[i].Length; j++)
-            {
 
+        
+        for (int x = 0; x < board.Length; x++)
+        {
+            for (int y = 0; y < board[x].Length; y++)
+            {
+                bool[] positions =
+                    { false,
+                false,      false,
+                    false };
+
+                if (board[y][x] == "██")
+                {
+                    if (y > 0) {
+                        if (board[y - 1][x] == "██")
+                        { positions[0] = true; }
+                    }
+                    if (x > 0) {
+                        if (board[y][x - 1] == "██")
+                        { positions[1] = true; }
+                    }
+                    if (y < board[x].Length - 1) {
+                        if (board[y][x + 1] == "██")
+                        { positions[2] = true; }
+                    }
+                    if (x < board.Length - 1) {
+                        if (board[y + 1][x] == "██")
+                        { positions[3] = true; }
+                    }
+
+
+                    if (positions[0])
+                    {   if (positions[1])
+                        {   if (positions[2])
+                            {   if (positions[3])
+                                {   returnBoard[y][x] = "╡╞";
+                                } else {
+                                    returnBoard[y][x] = "╧╧";
+                                }
+                            } else {
+                                if (positions[3])
+                                {   returnBoard[y][x] = "╡│";
+                                } else {
+                                    returnBoard[y][x] = "╧╛";
+                                }
+                            }
+                        } else {
+                            if (positions[2])
+                            {   if (positions[3])
+                                {   returnBoard[y][x] = "│╞";
+                                } else {
+                                    returnBoard[y][x] = "╘╧";
+                                }
+                            } else {
+                                if (positions[3])
+                                {   returnBoard[y][x] = "││";
+                                } else {
+                                    returnBoard[y][x] = "╚╝";
+                                }
+                            }
+                        }
+                    } else {
+                        if (positions[1])
+                        {   if (positions[2])
+                            {   if (positions[3])
+                                {   returnBoard[y][x] = "╤╤";
+                                } else {
+                                    returnBoard[y][x] = "══";
+                                }
+                            } else {
+                                if (positions[3])
+                                {   returnBoard[y][x] = "╤╕";
+                                } else {
+                                    returnBoard[y][x] = "╡│";
+                                }
+                            }
+                        } else {
+                            if (positions[2])
+                            {   if (positions[3])
+                                {   returnBoard[y][x] = "╒╤";
+                                } else {
+                                    returnBoard[y][x] = "│╞";
+                                }
+                            } else {
+                                if (positions[3])
+                                {   returnBoard[y][x] = "╔╗";
+                                } else {
+                                    returnBoard[y][x] = "◖◗";
+                                }
+                            }
+                        }
+                    }
+
+
+                }
             }
         }
 
-
-        return board;
+        return returnBoard;
     }
 }
 

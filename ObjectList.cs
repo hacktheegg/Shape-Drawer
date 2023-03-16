@@ -151,13 +151,26 @@ namespace Shape_Drawer
                 int X = (int)(Convert.ToDouble(i) * Math.Sin(angle));
                 int Y = (int)(Convert.ToDouble(i) * Math.Cos(angle));
 
-                board[X + line.pointOne.Item2][Y + line.pointOne.Item1] = "╡╞";
+                board[X + line.pointOne.Item2][Y + line.pointOne.Item1] = "██";
             }
 
             return board;
         }
     }
+    class Pixel
+    {
+        public Tuple<int, int> point;
+        public Pixel(Tuple<int, int> pnt)
+        {
+            point = pnt;
+        }
+        public static string[][] Create(Pixel pixel, string[][] board)
+        {
+            board[pixel.point.Item2][pixel.point.Item2] = "██";
 
+            return board;
+        }
+    }
 
 
     public class Board
