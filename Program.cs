@@ -68,6 +68,85 @@ class Program
     {
         string[][] returnBoard = new string[board.Length][];
 
+        for (int y = 0; y < board.Length; y++)
+        {
+            returnBoard[y] = new string[board[y].Length];
+
+            for (int x = 0; x < board[y].Length; x++)
+            {
+                if (board[y][x] == "██")
+                {
+                    bool top = (y > 0) && (board[y - 1][x] == "██");
+                    bool left = (x > 0) && (board[y][x - 1] == "██");
+                    bool right = (x < board[y].Length - 1) && (board[y][x + 1] == "██");
+                    bool bottom = (y < board.Length - 1) && (board[y + 1][x] == "██");
+
+                    switch (top, left, right, bottom)
+                    {
+                        case (false, false, false, false):
+                            returnBoard[y][x] = "┃┃";
+                            break;
+                        case (false, false, false, true):
+                            returnBoard[y][x] = "╔╗";
+                            break;
+                        case (false, false, true, false):
+                            returnBoard[y][x] = "==";
+                            break;
+                        case (false, false, true, true):
+                            returnBoard[y][x] = "╔╦";
+                            break;
+                        case (false, true, false, false):
+                            returnBoard[y][x] = "==";
+                            break;
+                        case (false, true, false, true):
+                            returnBoard[y][x] = "╦╗";
+                            break;
+                        case (false, true, true, false):
+                            returnBoard[y][x] = "══";
+                            break;
+                        case (false, true, true, true):
+                            returnBoard[y][x] = "╦╦";
+                            break;
+                        case (true, false, false, false):
+                            returnBoard[y][x] = "╚╝";
+                            break;
+                        case (true, false, false, true):
+                            returnBoard[y][x] = "║║";
+                            break;
+                        case (true, false, true, false):
+                            returnBoard[y][x] = "╚╩";
+                            break;
+                        case (true, false, true, true):
+                            returnBoard[y][x] = "║╠";
+                            break;
+                        case (true, true, false, false):
+                            returnBoard[y][x] = "╩╝";
+                            break;
+                        case (true, true, false, true):
+                            returnBoard[y][x] = "╣║";
+                            break;
+                        case (true, true, true, false):
+                            returnBoard[y][x] = "╩╩";
+                            break;
+                        case (true, true, true, true):
+                            returnBoard[y][x] = "╬╬";
+                            break;
+                    }
+                }
+                else
+                {
+                    returnBoard[y][x] = board[y][x];
+                }
+            }
+        }
+
+        return returnBoard;
+    }
+
+    /*static string[][] smoothBoard(string[][] board)
+    {
+        string[][] returnBoard = new string[board.Length][];
+
 
         
         for (int x = 0; x < board.Length; x++)
@@ -167,7 +246,7 @@ class Program
         }
 
         return returnBoard;
-    }
+    }*/
 }
 
 
