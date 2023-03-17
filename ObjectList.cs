@@ -20,6 +20,54 @@ namespace Shape_Drawer
             height = heightInput;
             originPoint = originPointInput;
         }
+
+        public static Square InputCreate()
+        {
+            Square square = new Square(0,0,Tuple.Create(0,0));
+
+            int tempInt;
+            string tempString;
+
+
+            FailedSquare1:
+                Console.Write("Origin Position (X): ");
+                tempString = Console.ReadLine();
+            if (!int.TryParse(tempString, out tempInt))
+            {
+                goto FailedSquare1;
+            }
+            square.originPoint = Tuple.Create(int.Parse(tempString), square.originPoint.Item2);
+
+            FailedSquare2:
+                Console.Write("Origin Position (Y): ");
+                tempString = Console.ReadLine();
+            if (!int.TryParse(tempString, out tempInt))
+            {
+                goto FailedSquare2;
+            }
+            square.originPoint = Tuple.Create(square.originPoint.Item1, int.Parse(tempString));
+
+            FailedSquare3:
+                Console.Write("Size of Square (Width): ");
+                tempString = Console.ReadLine();
+            if (!int.TryParse(tempString, out tempInt))
+            {
+                goto FailedSquare3;
+            }
+            square.width = int.Parse(tempString);
+
+            FailedSquare4:
+                Console.Write("Size of Square (Height): ");
+                tempString = Console.ReadLine();
+            if (!int.TryParse(tempString, out tempInt))
+            {
+                goto FailedSquare4;
+            }
+            square.height = int.Parse(tempString);
+
+
+            return square;
+        }
         
         public static string[][] Create(Square Square, string[][] board)
         {
@@ -63,6 +111,45 @@ namespace Shape_Drawer
             originPoint = originPointInput;
         }
 
+        public static Circle InputCreate()
+        {
+            Circle circle = new Circle(0, Tuple.Create(0, 0));
+
+            int tempInt;
+            string tempString;
+
+
+            FailedSquare1:
+                Console.Write("Origin Position (X): ");
+                tempString = Console.ReadLine();
+            if (!int.TryParse(tempString, out tempInt))
+            {
+                goto FailedSquare1;
+            }
+            circle.originPoint = Tuple.Create(int.Parse(tempString), circle.originPoint.Item2);
+
+            FailedSquare2:
+                Console.Write("Origin Position (Y): ");
+                tempString = Console.ReadLine();
+            if (!int.TryParse(tempString, out tempInt))
+            {
+                goto FailedSquare2;
+            }
+            circle.originPoint = Tuple.Create(circle.originPoint.Item1, int.Parse(tempString));
+
+            FailedSquare3:
+                Console.Write("Size of Circle (Radius): ");
+                tempString = Console.ReadLine();
+            if (!int.TryParse(tempString, out tempInt))
+            {
+                goto FailedSquare3;
+            }
+            circle.radius = int.Parse(tempString);
+
+
+            return circle;
+        }
+
         public static string[][] Create(Circle Circle, string[][] board)
         {
             ////////
@@ -98,6 +185,73 @@ namespace Shape_Drawer
             pointTwo = pnt2;
             pointThree = pnt3;
         }
+
+        public static Triangle InputCreate()
+        {
+            Triangle triangle = new Triangle(Tuple.Create(0, 0), Tuple.Create(0, 0), Tuple.Create(0, 0));
+
+            int tempInt;
+            string tempString;
+
+
+        FailedLine1:
+            Console.Write("Point1 Position (X): ");
+            tempString = Console.ReadLine();
+            if (!int.TryParse(tempString, out tempInt))
+            {
+                goto FailedLine1;
+            }
+            triangle.pointOne = Tuple.Create(int.Parse(tempString), triangle.pointOne.Item2);
+
+        FailedLine2:
+            Console.Write("Point1 Position (Y): ");
+            tempString = Console.ReadLine();
+            if (!int.TryParse(tempString, out tempInt))
+            {
+                goto FailedLine2;
+            }
+            triangle.pointOne = Tuple.Create(triangle.pointOne.Item1, int.Parse(tempString));
+
+        FailedLine3:
+            Console.Write("Point2 Position (X): ");
+            tempString = Console.ReadLine();
+            if (!int.TryParse(tempString, out tempInt))
+            {
+                goto FailedLine3;
+            }
+            triangle.pointTwo = Tuple.Create(int.Parse(tempString), triangle.pointTwo.Item1);
+
+        FailedLine4:
+            Console.Write("Point2 Position (Y): ");
+            tempString = Console.ReadLine();
+            if (!int.TryParse(tempString, out tempInt))
+            {
+                goto FailedLine4;
+            }
+            triangle.pointTwo = Tuple.Create(triangle.pointTwo.Item2, int.Parse(tempString));
+
+        FailedLine5:
+            Console.Write("Point2 Position (X): ");
+            tempString = Console.ReadLine();
+            if (!int.TryParse(tempString, out tempInt))
+            {
+                goto FailedLine5;
+            }
+            triangle.pointThree = Tuple.Create(int.Parse(tempString), triangle.pointThree.Item1);
+
+        FailedLine6:
+            Console.Write("Point2 Position (Y): ");
+            tempString = Console.ReadLine();
+            if (!int.TryParse(tempString, out tempInt))
+            {
+                goto FailedLine6;
+            }
+            triangle.pointThree = Tuple.Create(triangle.pointThree.Item2, int.Parse(tempString));
+
+
+            return triangle;
+        }
+
         public static string[][] Create(Triangle triangle, string[][] board)
         {
             Line line = new Line(triangle.pointOne, triangle.pointTwo);
@@ -119,6 +273,55 @@ namespace Shape_Drawer
             pointOne = pnt1;
             pointTwo = pnt2;
         }
+
+        public static Line InputCreate()
+        {
+            Line line = new Line(Tuple.Create(0, 0), Tuple.Create(0, 0));
+
+            int tempInt;
+            string tempString;
+
+
+            FailedLine1:
+                Console.Write("Point1 Position (X): ");
+                tempString = Console.ReadLine();
+            if (!int.TryParse(tempString, out tempInt))
+            {
+                goto FailedLine1;
+            }
+            line.pointOne = Tuple.Create(int.Parse(tempString), line.pointOne.Item2);
+
+            FailedLine2:
+                Console.Write("Point1 Position (Y): ");
+                tempString = Console.ReadLine();
+            if (!int.TryParse(tempString, out tempInt))
+            {
+                goto FailedLine2;
+            }
+            line.pointOne = Tuple.Create(line.pointOne.Item1, int.Parse(tempString));
+
+            FailedLine3:
+                Console.Write("Point2 Position (X): ");
+                tempString = Console.ReadLine();
+            if (!int.TryParse(tempString, out tempInt))
+            {
+                goto FailedLine3;
+            }
+            line.pointTwo = Tuple.Create(int.Parse(tempString), line.pointTwo.Item1);
+
+            FailedLine4:
+                Console.Write("Point2 Position (Y): ");
+                tempString = Console.ReadLine();
+            if (!int.TryParse(tempString, out tempInt))
+            {
+                goto FailedLine4;
+            }
+            line.pointTwo = Tuple.Create(line.pointTwo.Item2, int.Parse(tempString));
+
+
+            return line;
+        }
+
         public static string[][] Create(Line line, string[][] board)
         {
 

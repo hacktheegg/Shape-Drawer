@@ -39,29 +39,52 @@ class Program
 
 
 
-
-
         //New Board
-        string[][] board = Shape_Drawer.Board.Create(int.Parse(SizeOfBoardWidth), int.Parse(SizeOfBoardHeight));
-
+        string[][] board = Board.Create(int.Parse(SizeOfBoardWidth), int.Parse(SizeOfBoardHeight));
 
         //Adds Border
         Square Border = new Square(int.Parse(SizeOfBoardWidth), int.Parse(SizeOfBoardHeight), Tuple.Create(0,0));
         board = Square.Create(Border, board);
 
-        //Shape 1
-        Triangle triangle = new Triangle(
-            Tuple.Create(int.Parse(SizeOfBoardWidth) / 2, 1), 
-            Tuple.Create(1, int.Parse(SizeOfBoardHeight) - 2), 
-            Tuple.Create(int.Parse(SizeOfBoardWidth) - 2, int.Parse(SizeOfBoardHeight) - 2)
-        );
-        board = Triangle.Create(triangle, board);
 
-        board = smoothBoard(board);
 
-        Board.Print(board);
+        while (true)
+        {
+            Board.Print(smoothBoard(board));
+            Console.ReadKey(true);
 
-        Console.ReadKey(true);
+            loop:
+                Console.WriteLine("Which Shape would you like like to Draw?");
+                Console.WriteLine("1. Square");
+                Console.WriteLine("2. Circle");
+                Console.WriteLine("3. Triangle");
+                Console.WriteLine("4. Line");
+                Console.Write("Which one? ");
+                string inputInt = Console.ReadLine();
+            if (!int.TryParse(SizeOfBoardHeight, out tempInt))
+            {
+                Console.WriteLine("not valid input");
+                goto loop;
+            } else if (int.Parse(inputInt) < 1 || int.Parse(inputInt) > 4)
+            {
+                Console.WriteLine("not valid input");
+                goto loop;
+            }
+
+            if (int.Parse(inputInt) == 1)
+            {
+                board = Square.Create(Square.InputCreate(), board);
+            } else if (int.Parse(inputInt) == 2)
+            {
+                board = Circle.Create(Circle.InputCreate(), board);
+            } else if (int.Parse(inputInt) == 3)
+            {
+                board = Triangle.Create(Triangle.InputCreate(), board);
+            } else if (int.Parse(inputInt) == 4)
+            {
+                board = Line.Create(Line.InputCreate(), board);
+            }
+        }
     }
 
     static string[][] smoothBoard(string[][] board)
@@ -142,111 +165,6 @@ class Program
 
         return returnBoard;
     }
-
-    /*static string[][] smoothBoard(string[][] board)
-    {
-        string[][] returnBoard = new string[board.Length][];
-
-
-        
-        for (int x = 0; x < board.Length; x++)
-        {
-            for (int y = 0; y < board[x].Length; y++)
-            {
-                bool[] positions =
-                    { false,
-                false,      false,
-                    false };
-
-                if (board[y][x] == "██")
-                {
-                    if (y > 0) {
-                        if (board[y - 1][x] == "██")
-                        { positions[0] = true; }
-                    }
-                    if (x > 0) {
-                        if (board[y][x - 1] == "██")
-                        { positions[1] = true; }
-                    }
-                    if (y < board[x].Length - 1) {
-                        if (board[y][x + 1] == "██")
-                        { positions[2] = true; }
-                    }
-                    if (x < board.Length - 1) {
-                        if (board[y + 1][x] == "██")
-                        { positions[3] = true; }
-                    }
-
-
-                    if (positions[0])
-                    {   if (positions[1])
-                        {   if (positions[2])
-                            {   if (positions[3])
-                                {   returnBoard[y][x] = "╡╞";
-                                } else {
-                                    returnBoard[y][x] = "╧╧";
-                                }
-                            } else {
-                                if (positions[3])
-                                {   returnBoard[y][x] = "╡│";
-                                } else {
-                                    returnBoard[y][x] = "╧╛";
-                                }
-                            }
-                        } else {
-                            if (positions[2])
-                            {   if (positions[3])
-                                {   returnBoard[y][x] = "│╞";
-                                } else {
-                                    returnBoard[y][x] = "╘╧";
-                                }
-                            } else {
-                                if (positions[3])
-                                {   returnBoard[y][x] = "││";
-                                } else {
-                                    returnBoard[y][x] = "╚╝";
-                                }
-                            }
-                        }
-                    } else {
-                        if (positions[1])
-                        {   if (positions[2])
-                            {   if (positions[3])
-                                {   returnBoard[y][x] = "╤╤";
-                                } else {
-                                    returnBoard[y][x] = "══";
-                                }
-                            } else {
-                                if (positions[3])
-                                {   returnBoard[y][x] = "╤╕";
-                                } else {
-                                    returnBoard[y][x] = "╡│";
-                                }
-                            }
-                        } else {
-                            if (positions[2])
-                            {   if (positions[3])
-                                {   returnBoard[y][x] = "╒╤";
-                                } else {
-                                    returnBoard[y][x] = "│╞";
-                                }
-                            } else {
-                                if (positions[3])
-                                {   returnBoard[y][x] = "╔╗";
-                                } else {
-                                    returnBoard[y][x] = "◖◗";
-                                }
-                            }
-                        }
-                    }
-
-
-                }
-            }
-        }
-
-        return returnBoard;
-    }*/
 }
 
 
@@ -265,17 +183,3 @@ class Program
     height = y;
     originPoint = mytup;
 }*/
-
-
-
-//╔╗
-//╚╝
-
-//╒╤ ══ ╤╕
-//││ ╡╞ ││
-//╘╧ ══ ╧╛
-
-//╤╤╡│
-//│╞╧╧
-
-//◖◗
