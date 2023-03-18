@@ -15,7 +15,7 @@ class Program
 
     static void Main(string[] args)
     {
-
+        //SQLManagement.AddShape(0,7);
 
         int tempInt;
 
