@@ -48,6 +48,8 @@ class Program
 
 
 
+        int iteration = 1;
+
         while (true)
         {
             Board.Print(smoothBoard(board));
@@ -73,7 +75,11 @@ class Program
 
             if (int.Parse(inputInt) == 1)
             {
-                board = Square.Create(Square.InputCreate(), board);
+                Square square = Square.InputCreate();
+
+                board = Square.Create(square, board);
+
+                SQLManagement.Add.Square(iteration, square);
             } else if (int.Parse(inputInt) == 2)
             {
                 board = Circle.Create(Circle.InputCreate(), board);
@@ -84,6 +90,8 @@ class Program
             {
                 board = Line.Create(Line.InputCreate(), board);
             }
+
+            iteration++;
         }
     }
 

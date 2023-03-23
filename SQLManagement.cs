@@ -10,7 +10,7 @@ namespace Shape_Drawer
 {
     public class SQLManagement
     {
-        public static void AddShape(int shapeNo, int iteration)
+        public static void CheckIfAnotherRow(int iteration)
         {
             // create a connection to the SQLite database
             string connectionString = "Data Source=ShapeHistory.db;Version=3;";
@@ -43,12 +43,45 @@ namespace Shape_Drawer
                 // increment the new value
                 newValue++;
             }
+        }
 
-            // use the last value as needed
+        public class Add
+        {
+            public static void Square(int iteration, Square square)
+            {
+                CheckIfAnotherRow(iteration);
+
+                string connectionString = @"Data Source=ShapeHistory.db;Version=3;";
+                SQLiteConnection connection = new SQLiteConnection(connectionString);
+                connection.Open();
+
+                string query = "UPDATE Main SET Shape = 'Square' WHERE id = '" + iteration.ToString() + "'";
+                SQLiteCommand command = new SQLiteCommand(query, connection);
+                command.ExecuteNonQuery();
+
+                query = "UPDATE Main SET ParamOne = '" + square.originPoint.Item1.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
+                command = new SQLiteCommand(query, connection);
+                command.ExecuteNonQuery();
+
+                query = "UPDATE Main SET ParamTwo = '" + square.originPoint.Item2.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
+                command = new SQLiteCommand(query, connection);
+                command.ExecuteNonQuery();
+
+                query = "UPDATE Main SET ParamThree = '" + square.width.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
+                command = new SQLiteCommand(query, connection);
+                command.ExecuteNonQuery();
+
+                query = "UPDATE Main SET ParamFour = '" + square.height.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
+                command = new SQLiteCommand(query, connection);
+                command.ExecuteNonQuery();
+
+
+                connection.Close();
+            }
+
 
 
         }
-
 
 
         //public static string[] RetrieveDirectories()

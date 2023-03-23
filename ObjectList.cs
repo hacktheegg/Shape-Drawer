@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Shape_Drawer
 {
-    class Square
+    public class Square
     {
         public int width;
         public int height;
@@ -85,7 +85,7 @@ namespace Shape_Drawer
             return board;
         }
     }
-    class Circle
+    public class Circle
     {
         public int radius;
         public Tuple<int, int> originPoint;
@@ -144,7 +144,7 @@ namespace Shape_Drawer
             return board;
         }
     }
-    class Triangle
+    public class Triangle
     {
         public Tuple<int, int> pointOne;
         public Tuple<int, int> pointTwo;
@@ -221,7 +221,7 @@ namespace Shape_Drawer
             return board;
         }
     }
-    class Line
+    public class Line
     {
         public Tuple<int, int> pointOne;
         public Tuple<int, int> pointTwo;
@@ -295,7 +295,7 @@ namespace Shape_Drawer
             return board;
         }
     }
-    class Pixel
+    public class Pixel
     {
         public Tuple<int, int> point;
         public Pixel(Tuple<int, int> pnt)
