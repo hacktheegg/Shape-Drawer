@@ -183,7 +183,7 @@ namespace Shape_Drawer
             {
                 goto FailedLine3;
             }
-            triangle.pointTwo = Tuple.Create(int.Parse(tempString), triangle.pointTwo.Item1);
+            triangle.pointTwo = Tuple.Create(int.Parse(tempString), triangle.pointTwo.Item2);
             FailedLine4:
                 Console.Write("Point2 Position (Y): ");
                 tempString = Console.ReadLine();
@@ -191,9 +191,9 @@ namespace Shape_Drawer
             {
                 goto FailedLine4;
             }
-            triangle.pointTwo = Tuple.Create(triangle.pointTwo.Item2, int.Parse(tempString));
+            triangle.pointTwo = Tuple.Create(triangle.pointTwo.Item1, int.Parse(tempString));
             FailedLine5:
-                Console.Write("Point2 Position (X): ");
+                Console.Write("Point3 Position (X): ");
                 tempString = Console.ReadLine();
             if (!int.TryParse(tempString, out tempInt))
             {
@@ -201,7 +201,7 @@ namespace Shape_Drawer
             }
             triangle.pointThree = Tuple.Create(int.Parse(tempString), triangle.pointThree.Item1);
             FailedLine6:
-                Console.Write("Point2 Position (Y): ");
+                Console.Write("Point3 Position (Y): ");
                 tempString = Console.ReadLine();
             if (!int.TryParse(tempString, out tempInt))
             {
