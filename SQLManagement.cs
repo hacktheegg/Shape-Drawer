@@ -79,8 +79,129 @@ namespace ObjectList
                 connection.Close();
             }
 
+            public static void Circle(int iteration, Circle circle)
+            {
+                CheckIfAnotherRow(iteration);
+
+                string connectionString = @"Data Source=ShapeHistory.db;Version=3;";
+                SQLiteConnection connection = new SQLiteConnection(connectionString);
+                connection.Open();
+
+                string query = "UPDATE Main SET Shape = 'Circle' WHERE id = '" + iteration.ToString() + "'";
+                SQLiteCommand command = new SQLiteCommand(query, connection);
+                command.ExecuteNonQuery();
+
+                query = "UPDATE Main SET ParamOne = '" + circle.radius.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
+                command = new SQLiteCommand(query, connection);
+                command.ExecuteNonQuery();
+
+                query = "UPDATE Main SET ParamTwo = '" + circle.originPoint.Item1.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
+                command = new SQLiteCommand(query, connection);
+                command.ExecuteNonQuery();
+
+                query = "UPDATE Main SET ParamThree = '" + circle.originPoint.Item2.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
+                command = new SQLiteCommand(query, connection);
+                command.ExecuteNonQuery();
 
 
+                connection.Close();
+            }
+
+            public static void Triangle(int iteration, Triangle triangle)
+            {
+                CheckIfAnotherRow(iteration);
+
+                string connectionString = @"Data Source=ShapeHistory.db;Version=3;";
+                SQLiteConnection connection = new SQLiteConnection(connectionString);
+                connection.Open();
+
+                string query = "UPDATE Main SET Shape = 'Triangle' WHERE id = '" + iteration.ToString() + "'";
+                SQLiteCommand command = new SQLiteCommand(query, connection);
+                command.ExecuteNonQuery();
+
+                query = "UPDATE Main SET ParamOne = '" + triangle.pointOne.Item1.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
+                command = new SQLiteCommand(query, connection);
+                command.ExecuteNonQuery();
+
+                query = "UPDATE Main SET ParamTwo = '" + triangle.pointOne.Item2.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
+                command = new SQLiteCommand(query, connection);
+                command.ExecuteNonQuery();
+
+                query = "UPDATE Main SET ParamThree = '" + triangle.pointTwo.Item1.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
+                command = new SQLiteCommand(query, connection);
+                command.ExecuteNonQuery();
+
+                query = "UPDATE Main SET ParamFour = '" + triangle.pointTwo.Item2.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
+                command = new SQLiteCommand(query, connection);
+                command.ExecuteNonQuery();
+
+                query = "UPDATE Main SET ParamFive = '" + triangle.pointThree.Item1.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
+                command = new SQLiteCommand(query, connection);
+                command.ExecuteNonQuery();
+
+                query = "UPDATE Main SET ParamSix = '" + triangle.pointThree.Item2.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
+                command = new SQLiteCommand(query, connection);
+                command.ExecuteNonQuery();
+
+
+                connection.Close();
+            }
+
+            public static void Line(int iteration, Line line)
+            {
+                CheckIfAnotherRow(iteration);
+
+                string connectionString = @"Data Source=ShapeHistory.db;Version=3;";
+                SQLiteConnection connection = new SQLiteConnection(connectionString);
+                connection.Open();
+
+                string query = "UPDATE Main SET Shape = 'Line' WHERE id = '" + iteration.ToString() + "'";
+                SQLiteCommand command = new SQLiteCommand(query, connection);
+                command.ExecuteNonQuery();
+
+                query = "UPDATE Main SET ParamOne = '" + line.pointOne.Item1.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
+                command = new SQLiteCommand(query, connection);
+                command.ExecuteNonQuery();
+
+                query = "UPDATE Main SET ParamTwo = '" + line.pointOne.Item2.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
+                command = new SQLiteCommand(query, connection);
+                command.ExecuteNonQuery();
+
+                query = "UPDATE Main SET ParamThree = '" + line.pointTwo.Item1.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
+                command = new SQLiteCommand(query, connection);
+                command.ExecuteNonQuery();
+
+                query = "UPDATE Main SET ParamFour = '" + line.pointTwo.Item2.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
+                command = new SQLiteCommand(query, connection);
+                command.ExecuteNonQuery();
+
+
+                connection.Close();
+            }
+
+            public static void Board(int iteration, int width, int height)
+            {
+                CheckIfAnotherRow(iteration);
+
+                string connectionString = @"Data Source=ShapeHistory.db;Version=3;";
+                SQLiteConnection connection = new SQLiteConnection(connectionString);
+                connection.Open();
+
+                string query = "UPDATE Main SET Shape = 'Square' WHERE id = '" + iteration.ToString() + "'";
+                SQLiteCommand command = new SQLiteCommand(query, connection);
+                command.ExecuteNonQuery();
+
+                query = "UPDATE Main SET ParamOne = '" + width.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
+                command = new SQLiteCommand(query, connection);
+                command.ExecuteNonQuery();
+
+                query = "UPDATE Main SET ParamTwo = '" + height.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
+                command = new SQLiteCommand(query, connection);
+                command.ExecuteNonQuery();
+
+
+                connection.Close();
+            }
         }
 
 

@@ -199,7 +199,7 @@ namespace ObjectList
             {
                 goto FailedLine5;
             }
-            triangle.pointThree = Tuple.Create(int.Parse(tempString), triangle.pointThree.Item1);
+            triangle.pointThree = Tuple.Create(int.Parse(tempString), triangle.pointThree.Item2);
             FailedLine6:
                 Console.Write("Point3 Position (Y): ");
                 tempString = Console.ReadLine();
@@ -207,7 +207,7 @@ namespace ObjectList
             {
                 goto FailedLine6;
             }
-            triangle.pointThree = Tuple.Create(triangle.pointThree.Item2, int.Parse(tempString));
+            triangle.pointThree = Tuple.Create(triangle.pointThree.Item1, int.Parse(tempString));
             return triangle;
         }
         public static string[][] Create(Triangle triangle, string[][] board)
@@ -258,7 +258,7 @@ namespace ObjectList
             {
                 goto FailedLine3;
             }
-            line.pointTwo = Tuple.Create(int.Parse(tempString), line.pointTwo.Item1);
+            line.pointTwo = Tuple.Create(int.Parse(tempString), line.pointTwo.Item2);
             FailedLine4:
                 Console.Write("Point2 Position (Y): ");
                 tempString = Console.ReadLine();
