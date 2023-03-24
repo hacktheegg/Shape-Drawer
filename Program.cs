@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-using Shape_Drawer;
+using ObjectList;
 
 class Program
 {
@@ -16,6 +16,10 @@ class Program
     static void Main(string[] args)
     {
         //SQLManagement.AddShape(0,7);
+
+        int iteration = 1;
+
+
 
         int tempInt;
 
@@ -41,14 +45,13 @@ class Program
 
         //New Board
         string[][] board = Board.Create(int.Parse(SizeOfBoardWidth), int.Parse(SizeOfBoardHeight));
+        SQLManagement.Add.Board(iteration, int.Parse(SizeOfBoardWidth), int.Parse(SizeOfBoardHeight));
 
         //Adds Border
         Square Border = new Square(int.Parse(SizeOfBoardWidth), int.Parse(SizeOfBoardHeight), Tuple.Create(0,0));
         board = Square.Create(Border, board);
 
 
-
-        int iteration = 1;
 
         while (true)
         {
@@ -82,13 +85,25 @@ class Program
                 SQLManagement.Add.Square(iteration, square);
             } else if (int.Parse(inputInt) == 2)
             {
-                board = Circle.Create(Circle.InputCreate(), board);
+                Circle circle = Circle.InputCreate();
+
+                board = Circle.Create(circle, board);
+
+                SQLManagement.Add.Circle(iteration, circle);
             } else if (int.Parse(inputInt) == 3)
             {
-                board = Triangle.Create(Triangle.InputCreate(), board);
+                Triangle triangle = Triangle.InputCreate();
+
+                board = Triangle.Create(triangle, board);
+
+                SQLManagement.Add.Triangle(iteration, triangle);
             } else if (int.Parse(inputInt) == 4)
             {
-                board = Line.Create(Line.InputCreate(), board);
+                Line line = Line.InputCreate();
+
+                board = Line.Create(line, board);
+
+                SQLManagement.Add.Line(iteration, line);
             }
 
             iteration++;

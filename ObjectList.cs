@@ -6,7 +6,7 @@ using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shape_Drawer
+namespace ObjectList
 {
     public class Square
     {
