@@ -100,29 +100,30 @@ namespace ObjectList
             int tempInt;
             string tempString;
             FailedSquare1:
-                Console.Write("Origin Position (X): ");
+                Console.Write("Size of Circle (Radius): ");
                 tempString = Console.ReadLine();
             if (!int.TryParse(tempString, out tempInt))
             {
                 goto FailedSquare1;
             }
-            circle.originPoint = Tuple.Create(int.Parse(tempString), circle.originPoint.Item2);
+            circle.radius = int.Parse(tempString);
             FailedSquare2:
-                Console.Write("Origin Position (Y): ");
+                Console.Write("Origin Position (X): ");
                 tempString = Console.ReadLine();
             if (!int.TryParse(tempString, out tempInt))
             {
                 goto FailedSquare2;
             }
-            circle.originPoint = Tuple.Create(circle.originPoint.Item1, int.Parse(tempString));
+            circle.originPoint = Tuple.Create(int.Parse(tempString), circle.originPoint.Item2);
             FailedSquare3:
-                Console.Write("Size of Circle (Radius): ");
+                Console.Write("Origin Position (Y): ");
                 tempString = Console.ReadLine();
             if (!int.TryParse(tempString, out tempInt))
             {
                 goto FailedSquare3;
             }
-            circle.radius = int.Parse(tempString);
+            circle.originPoint = Tuple.Create(circle.originPoint.Item1, int.Parse(tempString));
+            
             return circle;
         }
         public static string[][] Create(Circle Circle, string[][] board)
@@ -137,8 +138,8 @@ namespace ObjectList
                 int X = (int)(Convert.ToDouble(Circle.radius) * Math.Sin(i));
                 int Y = (int)(Convert.ToDouble(Circle.radius) * Math.Cos(i));
                 board
-                    [Circle.originPoint.Item2 + Y + Circle.radius]
-                    [Circle.originPoint.Item1 + X + Circle.radius]
+                    [Circle.originPoint.Item2 + Y/* + Circle.radius*/]
+                    [Circle.originPoint.Item1 + X/* + Circle.radius*/]
                 = "██";
             }
             return board;

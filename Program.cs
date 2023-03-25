@@ -15,8 +15,7 @@ class Program
 
     static void Main(string[] args)
     {
-        //SQLManagement.AddShape(0,7);
-
+        SQLManagement.CheckIfFile();
         int iteration = 1;
 
 
@@ -46,10 +45,13 @@ class Program
         //New Board
         string[][] board = Board.Create(int.Parse(SizeOfBoardWidth), int.Parse(SizeOfBoardHeight));
         SQLManagement.Add.Board(iteration, int.Parse(SizeOfBoardWidth), int.Parse(SizeOfBoardHeight));
+        iteration++;
 
         //Adds Border
         Square Border = new Square(int.Parse(SizeOfBoardWidth), int.Parse(SizeOfBoardHeight), Tuple.Create(0,0));
         board = Square.Create(Border, board);
+        SQLManagement.Add.Square(iteration, Border);
+        iteration++;
 
 
 
@@ -130,7 +132,7 @@ class Program
                     switch (top, left, right, bottom)
                     {
                         case (false, false, false, false):
-                            returnBoard[y][x] = "┃┃";
+                            returnBoard[y][x] = "<>";
                             break;
                         case (false, false, false, true):
                             returnBoard[y][x] = "╔╗";

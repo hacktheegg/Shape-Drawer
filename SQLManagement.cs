@@ -187,7 +187,7 @@ namespace ObjectList
                 SQLiteConnection connection = new SQLiteConnection(connectionString);
                 connection.Open();
 
-                string query = "UPDATE Main SET Shape = 'Square' WHERE id = '" + iteration.ToString() + "'";
+                string query = "UPDATE Main SET Shape = 'Board' WHERE id = '" + iteration.ToString() + "'";
                 SQLiteCommand command = new SQLiteCommand(query, connection);
                 command.ExecuteNonQuery();
 
@@ -203,6 +203,31 @@ namespace ObjectList
                 connection.Close();
             }
         }
+
+
+        public static void CheckIfFile()
+        {
+            if (!System.IO.File.Exists("ShapeHistory.db"))
+            {
+
+                string connectionString = @"Data Source=ShapeHistory.db;Version=3;";
+                SQLiteConnection connection = new SQLiteConnection(connectionString);
+                connection.Open();
+
+                string query = "CREATE TABLE Main (id INTEGER, Shape TEXT, " +
+                    "ParamOne INTEGER, ParamTwo INTEGER, ParamThree INTEGER, " +
+                    "ParamFour INTEGER, ParamFive INTEGER, ParamSix INTEGER)";
+                SQLiteCommand command = new SQLiteCommand(query, connection);
+                command.ExecuteNonQuery();
+                connection.Close();
+
+            }
+        }
+
+
+
+
+
 
 
         //public static string[] RetrieveDirectories()
