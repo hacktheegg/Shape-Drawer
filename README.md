@@ -1,63 +1,142 @@
 
 # Shape Drawer
 
-## Basics
+## About
 
-### About
+### Basics
 
-This little project of mine is designed to be built on from so you can easily make menu's over it
+This little project of mine is designed to be a scaffold for projects of mine in the future.
+
+It has a fair amount of utilities for use and I plan on maintaining it for a fair amount of time as until i stop working with the Windows Terminal as a medium for graphics.
 
 ### Requirements
 
-You need to have some knowledge of C# and have some way to compile or run it
+C# knowledge because it isn't a game creator, only a scaffold.
 
-I personally used Visual Studio 2022 to make it
+A code editor. (Mine was Visual Studio 2022)
 
-Relies on the Terminal on windows to work
+A way to compile after being built apon.
 
-## How To Use
+Relies on Windows Terminal/Command Prompt to work. So there's no guarantee of it working on Mac or Linux.
 
-Create a new `board`
+A way to view Data Base files for when it logs what was done. (To Make)
 
-```
-string[][] boardVar = Shape_Drawer.Board.Create({Width}, {Height});
-```
+# How To Use
 
-Draw `Shape` on `board`
+## `Board`
 
-```
-{Shape} myVar = new {Shape}({ShapeProperties});
-board = {Shape}.Create(myVar, boardVar);
-```
+### About
 
-Update/Print `board`
+This is what the shapes are layered on.
+
+### Creation
 
 ```
-Shape_Drawer.Board.Print(boardVar);
+string[][] BoardVar = Board.Create(int {Width}, int {Height});
 ```
 
-## Objects and their Parameters
-
-### Square
+### Printing
 
 ```
-Square(int widthInput, int heightInput, Tuple<int, int> originPointInput)
+Board.Print(BoardVar);
 ```
 
-### Circle
+### Nuances
+
+When a `Board` is created, top left is `(0,0)` and bottom right is `({Width} - 1, {Height} - 1)` I think (Even though I made this I do not know).
+
+
+## `Square`
+
+### About
+
+Technically a `Rectangle` maker
+
+### Creation
 
 ```
-Circle(int radiusInput, Tuple<int, int> originPointInput)
+Square SquareVar = Square.Create(int {Width}, int {Height}, Tuple<int, int> Tuple.Create({x},{y}));
 ```
 
-### Triangle
+### Printing
 
 ```
-Triangle(Tuple<int, int> pnt1, Tuple<int, int> pnt2, Tuple<int, int> pnt3)
+BoardVar = Square.Create(SquareVar, BoardVar);
 ```
 
-### Line
+### Nuances
+
+Not the most optimal way done, could be better with 2 points and expanding from each point in the direction of the other point along the X and Y axis.
+
+## `Circle`
+
+### About
+
+Tis `Circle`. Tis confusing, even when making.
+
+### Creation
 
 ```
-Line(Tuple<int, int> pnt1, Tuple<int, int> pnt2)
+Circle CircleVar = Circle.Create({Radius}, Tuple<int, int> Tuple.Create({x},{y}));
 ```
+
+### Printing
+
+```
+BoardVar = Square.Create(CircleVar, BoardVar);
+```
+
+### Nuances
+
+If radius is too big, it might leave gaps in the circumference. This was the second most annoying to make.
+
+## `Triangle`
+
+### About
+
+3 lines in-between 3 points.
+
+### Creation
+
+```
+Triangle TriangleVar = Triangle.Create(
+    Tuple<int, int> Tuple.Create({Point1X},{Point1Y}),
+    Tuple<int, int> Tuple.Create({Point2X},{Point2Y}),
+    Tuple<int, int> Tuple.Create({Point3X},{Point3Y})
+);
+```
+
+### Printing
+
+```
+BoardVar = Triangle.Create(TriangleVar, BoardVar);
+```
+
+### Nuances
+
+¯\\_(ツ)_/¯
+
+## `Line`
+
+### About
+
+The bane of my being, took the longest to make, 3 different versions were tested before this worked.
+
+### Creation
+
+```
+Line LineVar = Line.Create(
+    Tuple<int, int> Tuple.Create({Point1X},{Point1Y}),
+    Tuple<int, int> Tuple.Create({Point2X},{Point2Y})
+);
+```
+
+### Printing
+
+```
+BoardVar = Line.Create(LineVar, BoardVar);
+```
+
+### Nuances
+
+Uses the basis of the `Circle` formula and instead of changing the angle (which is found it a way i don't want to get into), it increments the distance.
