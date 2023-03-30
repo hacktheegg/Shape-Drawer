@@ -267,7 +267,7 @@ namespace ObjectList
             {
                 goto FailedLine4;
             }
-            line.pointTwo = Tuple.Create(line.pointTwo.Item2, int.Parse(tempString));
+            line.pointTwo = Tuple.Create(line.pointTwo.Item1, int.Parse(tempString));
             return line;
         }
         public static string[][] Create(Line line, string[][] board)
