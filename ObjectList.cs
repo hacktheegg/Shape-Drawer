@@ -327,6 +327,26 @@ namespace ObjectList
             }
             return returnValue;
         }
+        public static int[] InputCreate()
+        {
+            int tempInt;
+            FailedInputBoardWidth:
+                Console.Write("Size of board (Width): ");
+                string width = Console.ReadLine();
+            if (!int.TryParse(width, out tempInt))
+            {
+                goto FailedInputBoardWidth;
+            }
+            FailedInputBoardHeight:
+                Console.Write("Size of board (Height): ");
+                string height = Console.ReadLine();
+            if (!int.TryParse(height, out tempInt))
+            {
+                goto FailedInputBoardHeight;
+            }
+            int[] temp = { int.Parse(width), int.Parse(height) };
+            return temp;
+        }
         public static void Print(string[][] board)
         {
             for (int i = 0; i < board.Length; i++)

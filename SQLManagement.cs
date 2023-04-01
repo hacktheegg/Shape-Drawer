@@ -12,37 +12,47 @@ namespace ObjectList
     {
         public static void CheckIfAnotherRow(int iteration)
         {
+            string connectionString = "Data Source=ShapeHistory.db;Version=3;";
+            SQLiteConnection connection = new SQLiteConnection(connectionString);
+            connection.Open();
+
+            
+
+            int lastValue = LastValue();
+            int newValue = lastValue + 1;
+            string sqlCommand;
+            SQLiteCommand command;
+
+            while (newValue <= iteration)
+            {
+                sqlCommand = "INSERT INTO Main (id) VALUES (" + newValue + ");";
+                command = new SQLiteCommand(sqlCommand, connection);
+
+                command.ExecuteNonQuery();
+
+                newValue++;
+            }
+        }
+        public static int LastValue()
+        {
             // create a connection to the SQLite database
             string connectionString = "Data Source=ShapeHistory.db;Version=3;";
             SQLiteConnection connection = new SQLiteConnection(connectionString);
             connection.Open();
 
             // create a SQL command to get the last value of a column
-            string columnName = "id";
-            string sqlCommand = $"SELECT {columnName} FROM Main ORDER BY ROWID DESC LIMIT 1;";
+            string sqlCommand = "SELECT id FROM Main ORDER BY ROWID DESC LIMIT 1;";
             SQLiteCommand command = new SQLiteCommand(sqlCommand, connection);
 
             // execute the SQL command and retrieve the last value of the column
             object result = command.ExecuteScalar();
 
-
-
             int lastValue = Convert.ToInt32(result); // convert the result to the appropriate data type
-            int newValue = lastValue + 1; // set the initial value to the next integer after the last value
 
-            // loop until the new value is greater than the minimum value
-            while (newValue <= iteration)
-            {
-                // create a SQL command to insert the new value into the table
-                sqlCommand = $"INSERT INTO Main ({columnName}) VALUES ({newValue});";
-                command = new SQLiteCommand(sqlCommand, connection);
+            connection.Close();
 
-                // execute the SQL command to insert the new value
-                command.ExecuteNonQuery();
 
-                // increment the new value
-                newValue++;
-            }
+            return lastValue;
         }
 
         public class Add
@@ -58,22 +68,24 @@ namespace ObjectList
                 string query = "UPDATE Main SET Shape = 'Square' WHERE id = '" + iteration.ToString() + "'";
                 SQLiteCommand command = new SQLiteCommand(query, connection);
                 command.ExecuteNonQuery();
-
-                query = "UPDATE Main SET ParamOne = '" + square.originPoint.Item1.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
+                
+                query = "UPDATE Main SET ParamOne = '" + square.width.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
                 command = new SQLiteCommand(query, connection);
                 command.ExecuteNonQuery();
 
-                query = "UPDATE Main SET ParamTwo = '" + square.originPoint.Item2.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
+                query = "UPDATE Main SET ParamTwo = '" + square.height.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
+                command = new SQLiteCommand(query, connection);
+                command.ExecuteNonQuery();
+                
+                query = "UPDATE Main SET ParamThree = '" + square.originPoint.Item1.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
                 command = new SQLiteCommand(query, connection);
                 command.ExecuteNonQuery();
 
-                query = "UPDATE Main SET ParamThree = '" + square.width.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
+                query = "UPDATE Main SET ParamFour = '" + square.originPoint.Item2.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
                 command = new SQLiteCommand(query, connection);
                 command.ExecuteNonQuery();
 
-                query = "UPDATE Main SET ParamFour = '" + square.height.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
-                command = new SQLiteCommand(query, connection);
-                command.ExecuteNonQuery();
+                
 
 
                 connection.Close();
@@ -204,7 +216,6 @@ namespace ObjectList
             }
         }
 
-
         public static void CheckIfFile()
         {
             if (!System.IO.File.Exists("ShapeHistory.db"))
@@ -224,7 +235,44 @@ namespace ObjectList
             }
         }
 
+        public static Tuple<string, int, int, int, int, int, int> RetrieveRow(int iteration)
+        {
+            Tuple<string, int, int, int, int, int, int> values = Tuple.Create("NULL", -1, -1, -1, -1, -1, -1);
 
+            string connectionString = @"Data Source=ShapeHistory.db;Version=3;";
+            SQLiteConnection connection = new SQLiteConnection(connectionString);
+            connection.Open();
+
+            SQLiteCommand query = new SQLiteCommand(connection);
+            query.CommandText = "SELECT * FROM Main WHERE id = '" + iteration.ToString() + "'";
+            SQLiteDataReader reader = query.ExecuteReader();
+            while (reader.Read())
+            {
+                values = Tuple.Create(
+                    reader.IsDBNull(1) ? "NULL" : reader.GetString(1),
+                    reader.IsDBNull(2) ? -1 : reader.GetInt32(2),
+                    reader.IsDBNull(3) ? -1 : reader.GetInt32(3),
+                    reader.IsDBNull(4) ? -1 : reader.GetInt32(4),
+                    reader.IsDBNull(5) ? -1 : reader.GetInt32(5),
+                    reader.IsDBNull(6) ? -1 : reader.GetInt32(6),
+                    reader.IsDBNull(7) ? -1 : reader.GetInt32(7)
+                );
+
+                //values = Tuple.Create(reader.GetString(1), values.Item2, values.Item3, values.Item4, values.Item5, values.Item6, values.Item7);
+                //values = Tuple.Create(values.Item1, reader.GetInt32(2), values.Item3, values.Item4, values.Item5, values.Item6, values.Item7);
+                //values = Tuple.Create(values.Item1, values.Item2, reader.GetInt32(3), values.Item4, values.Item5, values.Item6, values.Item7);
+                //values = Tuple.Create(values.Item1, values.Item2, values.Item3, reader.GetInt32(4), values.Item5, values.Item6, values.Item7);
+                //values = Tuple.Create(values.Item1, values.Item2, values.Item3, values.Item4, reader.GetInt32(5), values.Item6, values.Item7);
+                //values = Tuple.Create(values.Item1, values.Item2, values.Item3, values.Item4, values.Item5, reader.GetInt32(6), values.Item7);
+                //values = Tuple.Create(values.Item1, values.Item2, values.Item3, values.Item4, values.Item5, values.Item6, reader.GetInt32(7));
+            }
+
+            connection.Close();
+
+
+
+            return values;
+        }
 
 
 

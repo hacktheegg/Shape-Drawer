@@ -17,41 +17,72 @@ class Program
     {
         SQLManagement.CheckIfFile();
         int iteration = 1;
-
-
-
         int tempInt;
 
-        FailedInputBoardWidth:
-            Console.Write("Size of board (Width): ");
-            string SizeOfBoardWidth = Console.ReadLine();
 
-        if (!int.TryParse(SizeOfBoardWidth, out tempInt))
-        { 
-            goto FailedInputBoardWidth; 
-        }
+        string[][] board = Board.Create(2, 2);
 
-        FailedInputBoardHeight:
-            Console.Write("Size of board (Height): ");
-            string SizeOfBoardHeight = Console.ReadLine();
 
-        if (!int.TryParse(SizeOfBoardHeight, out tempInt))
+
+        Console.WriteLine("Draw from file? Y/N");
+        bool answer = Console.ReadKey(true).KeyChar.ToString().ToLower() == "y";
+
+        if (answer)
         {
-            goto FailedInputBoardHeight;
+
+            while (iteration <= SQLManagement.LastValue())
+            {
+                Tuple<string, int, int, int, int, int, int> Row = SQLManagement.RetrieveRow(iteration);
+                
+                Console.WriteLine(Row.Item1);
+
+                if (Row.Item1 == "Board")
+                {
+                    board = Board.Create(Row.Item2, Row.Item3);
+                } else if (Row.Item1 == "Square")
+                {
+                    Square ReadFromFileSquare = new Square(Row.Item2, Row.Item3, Tuple.Create(Row.Item4, Row.Item5));
+                    board = Square.Create(ReadFromFileSquare, board);
+                    Console.WriteLine($"{Row.Item1}, {Row.Item2}, {Row.Item3}, {Row.Item4}, {Row.Item5}, {Row.Item6}, {Row.Item7}");
+                } else if (Row.Item1 == "Circle")
+                {
+                    Circle ReadFromFileCircle = new Circle(Row.Item2, Tuple.Create(Row.Item3, Row.Item4));
+                    board = Circle.Create(ReadFromFileCircle, board);
+                } else if (Row.Item1 == "Triangle")
+                {
+                    Triangle ReadFromFileTriangle = new Triangle(Tuple.Create(Row.Item2, Row.Item3), Tuple.Create(Row.Item4, Row.Item5), Tuple.Create(Row.Item6, Row.Item7));
+                    board = Triangle.Create(ReadFromFileTriangle, board);
+                } else if (Row.Item1 == "Line")
+                {
+                    Line ReadFromFileLine = new Line(Tuple.Create(Row.Item2, Row.Item3), Tuple.Create(Row.Item4, Row.Item5));
+                    board = Line.Create(ReadFromFileLine, board);
+                } else if (Row.Item1 == "Pixel")
+                {
+                    Pixel ReadFromFilePixel = new Pixel(Tuple.Create(Row.Item2, Row.Item3));
+                    board = Pixel.Create(ReadFromFilePixel, board);
+                } else if (Row.Item1 == "NULL")
+                {
+                    break;
+                }
+
+                iteration++;
+            }
+        } else
+        {
+            //New Board
+            int[] boardCreateTemp = Board.InputCreate();
+            board = Board.Create(boardCreateTemp[0], boardCreateTemp[1]);
+            SQLManagement.Add.Board(iteration, boardCreateTemp[0], boardCreateTemp[1]);
+            iteration++;
+
+            //Adds Border
+            Square Border = new Square(boardCreateTemp[0], boardCreateTemp[1], Tuple.Create(0,0));
+            board = Square.Create(Border, board);
+            SQLManagement.Add.Square(iteration, Border);
+            iteration++;
         }
 
-
-
-        //New Board
-        string[][] board = Board.Create(int.Parse(SizeOfBoardWidth), int.Parse(SizeOfBoardHeight));
-        SQLManagement.Add.Board(iteration, int.Parse(SizeOfBoardWidth), int.Parse(SizeOfBoardHeight));
-        iteration++;
-
-        //Adds Border
-        Square Border = new Square(int.Parse(SizeOfBoardWidth), int.Parse(SizeOfBoardHeight), Tuple.Create(0,0));
-        board = Square.Create(Border, board);
-        SQLManagement.Add.Square(iteration, Border);
-        iteration++;
+        
 
 
 
@@ -68,7 +99,7 @@ class Program
                 Console.WriteLine("4. Line");
                 Console.Write("Which one? ");
                 string inputInt = Console.ReadLine();
-            if (!int.TryParse(SizeOfBoardHeight, out tempInt))
+            if (!int.TryParse(inputInt, out tempInt))
             {
                 Console.WriteLine("not valid input");
                 goto loop;
