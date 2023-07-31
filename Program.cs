@@ -101,13 +101,14 @@ class Program
                 Console.WriteLine("2. Circle");
                 Console.WriteLine("3. Triangle");
                 Console.WriteLine("4. Line");
+                Console.WriteLine("5. Text");
                 Console.Write("Which one? ");
                 string inputInt = Console.ReadLine();
             if (!int.TryParse(inputInt, out tempInt))
             {
                 Console.WriteLine("not valid input");
                 goto loop;
-            } else if (int.Parse(inputInt) < 1 || int.Parse(inputInt) > 4)
+            } else if (int.Parse(inputInt) < 1 || int.Parse(inputInt) > 5)
             {
                 Console.WriteLine("not valid input");
                 goto loop;
@@ -141,6 +142,13 @@ class Program
                 board = Line.Create(line, board);
 
                 SQLManagement.values.Add.Line(iteration, line);
+            } else if (int.Parse(inputInt) == 5)
+            {
+                Text text = Text.InputCreate();
+
+                board = Text.Create(text, board);
+
+                SQLManagement.values.Add.Text(iteration, text);
             }
 
             iteration++;

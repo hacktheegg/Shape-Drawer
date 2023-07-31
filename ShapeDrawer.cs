@@ -192,7 +192,6 @@ namespace ObjectList
             return board;
         }
     }
-
     public class Triangle
     {
         public System.Tuple<int, int> pointOne;

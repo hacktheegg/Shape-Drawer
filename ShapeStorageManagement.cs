@@ -59,6 +59,34 @@ namespace SQLManagement
 
         public class Add
         {
+            public static void Text(int iteration, Text text)
+            {
+                CheckIfAnotherRow(iteration);
+
+                string connectionString = @"Data Source=ShapeHistory.db;Version=3;";
+                SQLiteConnection connection = new SQLiteConnection(connectionString);
+                connection.Open();
+
+                string query = "UPDATE Main SET Shape = 'Text' WHERE id = '" + iteration.ToString() + "'";
+                SQLiteCommand command = new SQLiteCommand(query, connection);
+                command.ExecuteNonQuery();
+
+                query = "UPDATE Main SET ParamOne = '" + text.originPoint.Item1.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
+                command = new SQLiteCommand(query, connection);
+                command.ExecuteNonQuery();
+
+                query = "UPDATE Main SET ParamTwo = '" + text.originPoint.Item2.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
+                command = new SQLiteCommand(query, connection);
+                command.ExecuteNonQuery();
+
+                query = "UPDATE Main SET Content = '" + text.content + "' WHERE id = '" + iteration.ToString() + "'";
+                command = new SQLiteCommand(query, connection);
+                command.ExecuteNonQuery();
+
+
+                connection.Close();
+            }
+
             public static void Square(int iteration, Square square)
             {
                 CheckIfAnotherRow(iteration);
@@ -86,8 +114,6 @@ namespace SQLManagement
                 query = "UPDATE Main SET ParamFour = '" + square.originPoint.Item2.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
                 command = new SQLiteCommand(query, connection);
                 command.ExecuteNonQuery();
-
-                
 
 
                 connection.Close();
@@ -229,7 +255,7 @@ namespace SQLManagement
 
                 string query = "CREATE TABLE Main (id INTEGER, Shape TEXT, " +
                     "ParamOne INTEGER, ParamTwo INTEGER, ParamThree INTEGER, " +
-                    "ParamFour INTEGER, ParamFive INTEGER, ParamSix INTEGER)";
+                    "ParamFour INTEGER, ParamFive INTEGER, ParamSix INTEGER, Content TEXT)";
                 SQLiteCommand command = new SQLiteCommand(query, connection);
                 command.ExecuteNonQuery();
                 connection.Close();
