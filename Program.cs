@@ -167,11 +167,11 @@ class Program
         {
             returnBoard[x] = new string[board[x].Length];
 
-            Console.WriteLine("x: " + x);
+            // Console.WriteLine("x: " + x);
 
             for (int y = 0; y < board[x].Length; y++)
             {
-                Console.WriteLine("y: " + y);
+                // Console.WriteLine("y: " + y);
 
                 if (board[x][y] == "██")
                 {

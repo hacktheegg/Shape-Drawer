@@ -45,11 +45,16 @@ namespace ObjectList
         }
         public static string[][] Create(Text Text, string[][] board) {
 
+            int i = 0;
             int j = 0;
 
-            for (int i = 0; i < Text.content.Length; i++) {
-                board[Text.originPoint.Item1+i][Text.originPoint.Item2] = Text.content[j] + "" + Text.content[j+1];
+            for (i = 0; i < Math.Floor((decimal)(Text.content.Length/2)); i++) {
+                board[Text.originPoint.Item1+i][Text.originPoint.Item2] = (string)(Text.content[j] + "" + Text.content[j+1]);
                 j+=2;
+            }
+
+            if (Text.content.Length-1 > j) {
+                board[Text.originPoint.Item1+i][Text.originPoint.Item2] = (string)(Text.content[Text.content.Length-1] + " ");
             }
 
             return board;
