@@ -263,9 +263,9 @@ namespace SQLManagement
             }
         }
 
-        public static Tuple<string, int, int, int, int, int, int> RetrieveRow(int iteration)
+        public static Tuple<string, Tuple<int, int, int, int, int, int>, string> RetrieveRow(int iteration)
         {
-            Tuple<string, int, int, int, int, int, int> values = Tuple.Create("NULL", -1, -1, -1, -1, -1, -1);
+            Tuple<string, Tuple<int, int, int, int, int, int>, string> values = new Tuple<string, Tuple<int, int, int, int, int, int>, string>("NULL", new Tuple<int, int, int, int, int, int>(-1, -1, -1, -1, -1, -1), "NULL");
 
             string connectionString = @"Data Source=ShapeHistory.db;Version=3;";
             SQLiteConnection connection = new SQLiteConnection(connectionString);
@@ -276,14 +276,17 @@ namespace SQLManagement
             SQLiteDataReader reader = query.ExecuteReader();
             while (reader.Read())
             {
-                values = Tuple.Create(
+                values = new Tuple<string, Tuple<int, int, int, int, int, int>, string>(
                     reader.IsDBNull(1) ? "NULL" : reader.GetString(1),
-                    reader.IsDBNull(2) ? -1 : reader.GetInt32(2),
-                    reader.IsDBNull(3) ? -1 : reader.GetInt32(3),
-                    reader.IsDBNull(4) ? -1 : reader.GetInt32(4),
-                    reader.IsDBNull(5) ? -1 : reader.GetInt32(5),
-                    reader.IsDBNull(6) ? -1 : reader.GetInt32(6),
-                    reader.IsDBNull(7) ? -1 : reader.GetInt32(7)
+                    new Tuple<int, int, int, int, int, int>(
+                        reader.IsDBNull(2) ? -1 : reader.GetInt32(2),
+                        reader.IsDBNull(3) ? -1 : reader.GetInt32(3),
+                        reader.IsDBNull(4) ? -1 : reader.GetInt32(4),
+                        reader.IsDBNull(5) ? -1 : reader.GetInt32(5),
+                        reader.IsDBNull(6) ? -1 : reader.GetInt32(6),
+                        reader.IsDBNull(7) ? -1 : reader.GetInt32(7)
+                    ),
+                    reader.IsDBNull(8) ? "NULL" : reader.GetString(8)
                 );
 
                 //values = Tuple.Create(reader.GetString(1), values.Item2, values.Item3, values.Item4, values.Item5, values.Item6, values.Item7);

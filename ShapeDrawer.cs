@@ -53,9 +53,10 @@ namespace ObjectList
                 j+=2;
             }
 
-            if (Text.content.Length-1 > j) {
-                board[Text.originPoint.Item1+i][Text.originPoint.Item2] = (string)(Text.content[Text.content.Length-1] + " ");
-            }
+            // Console.WriteLine("i: " + i);
+            // Console.WriteLine("j: " + j);
+
+            board[Text.originPoint.Item1+i][Text.originPoint.Item2] = (string)(Text.content[Text.content.Length-1] + " ");
 
             return board;
         }

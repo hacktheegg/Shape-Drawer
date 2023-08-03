@@ -33,36 +33,36 @@ class Program
 
             while (iteration <= SQLManagement.values.LastValue())
             {
-                Tuple<string, int, int, int, int, int, int> Row = SQLManagement.values.RetrieveRow(iteration);
+                Tuple<string, Tuple<int, int, int, int, int, int>, string> Row = SQLManagement.values.RetrieveRow(iteration);
                 
                 Console.WriteLine(Row.Item1);
 
                 if (Row.Item1 == "Board")
                 {
-                    board = Board.Create(Row.Item2, Row.Item3);
+                    board = Board.Create(Row.Item2.Item1, Row.Item2.Item2);
                 } else if (Row.Item1 == "Square")
                 {
-                    Square ReadFromFileSquare = new Square(Row.Item2, Row.Item3, Tuple.Create(Row.Item4, Row.Item5));
+                    Square ReadFromFileSquare = new Square(Row.Item2.Item1, Row.Item2.Item2, Tuple.Create(Row.Item2.Item3, Row.Item2.Item4));
                     board = Square.Create(ReadFromFileSquare, board);
                 } else if (Row.Item1 == "Circle")
                 {
-                    Circle ReadFromFileCircle = new Circle(Row.Item2, Tuple.Create(Row.Item3, Row.Item4));
+                    Circle ReadFromFileCircle = new Circle(Row.Item2.Item1, Tuple.Create(Row.Item2.Item2, Row.Item2.Item3));
                     board = Circle.Create(ReadFromFileCircle, board);
                 } else if (Row.Item1 == "Triangle")
                 {
-                    Triangle ReadFromFileTriangle = new Triangle(Tuple.Create(Row.Item2, Row.Item3), Tuple.Create(Row.Item4, Row.Item5), Tuple.Create(Row.Item6, Row.Item7));
+                    Triangle ReadFromFileTriangle = new Triangle(Tuple.Create(Row.Item2.Item1, Row.Item2.Item2), Tuple.Create(Row.Item2.Item3, Row.Item2.Item4), Tuple.Create(Row.Item2.Item5, Row.Item2.Item6));
                     board = Triangle.Create(ReadFromFileTriangle, board);
                 } else if (Row.Item1 == "Line")
                 {
-                    Line ReadFromFileLine = new Line(Tuple.Create(Row.Item2, Row.Item3), Tuple.Create(Row.Item4, Row.Item5));
+                    Line ReadFromFileLine = new Line(Tuple.Create(Row.Item2.Item1, Row.Item2.Item2), Tuple.Create(Row.Item2.Item3, Row.Item2.Item4));
                     board = Line.Create(ReadFromFileLine, board);
                 } else if (Row.Item1 == "Pixel")
                 {
-                    Pixel ReadFromFilePixel = new Pixel(Tuple.Create(Row.Item2, Row.Item3));
+                    Pixel ReadFromFilePixel = new Pixel(Tuple.Create(Row.Item2.Item1, Row.Item2.Item2));
                     board = Pixel.Create(ReadFromFilePixel, board);
                 } else if (Row.Item1 == "Text")
                 {
-                    Text ReadFromFileText = new Text(Tuple.Create(Row.Item2, Row.Item3), "this is a message");
+                    Text ReadFromFileText = new Text(Tuple.Create(Row.Item2.Item1, Row.Item2.Item2), Row.Item3);
                     board = Text.Create(ReadFromFileText, board);
                 } else if (Row.Item1 == "NULL")
                 {
@@ -157,11 +157,11 @@ class Program
 
     static string[][] smoothBoard(string[][] board)
     {
-        Board.Print(board);
+        // Board.Print(board);
 
         string[][] returnBoard = new string[board.Length][];
 
-        Console.WriteLine(board.Length);
+        // Console.WriteLine(board.Length);
 
         for (int x = 0; x < board.Length; x++)
         {
