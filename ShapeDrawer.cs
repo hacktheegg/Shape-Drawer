@@ -8,194 +8,141 @@ using System.Threading.Tasks;
 
 namespace ObjectList
 {
-    public class Text
-    {
-        public System.Tuple<int, int> originPoint;
-        public string content;
-        /*public bool orientation;*/
-
-        public Text(System.Tuple<int, int> originPointInput, string contentInput/*, bool orientationInput*/) {
-            originPoint = originPointInput;
-            content = contentInput;
-            /*orientation = orientationInput;*/
-        }
-        public static Text InputCreate() {
-            Text text = new Text(Tuple.Create(0,0),""/*,false*/);
-            int tempInt;
-            string tempString;
-            FailedText1:
-                Console.Write("Origin Position (X): ");
-                tempString = Console.ReadLine();
-            if (!int.TryParse(tempString, out tempInt))
-            {
-                goto FailedText1;
-            }
-            text.originPoint = Tuple.Create(int.Parse(tempString), text.originPoint.Item2);
-            FailedText2:
-                Console.Write("Origin Position (Y): ");
-                tempString = Console.ReadLine();
-            if (!int.TryParse(tempString, out tempInt))
-            {
-                goto FailedText2;
-            }
-            text.originPoint = Tuple.Create(text.originPoint.Item1, int.Parse(tempString));
-            Console.Write("Content of Text: ");
-            text.content = Console.ReadLine();
-            return text;
-        }
-        public static string[][] Create(Text Text, string[][] board) {
-
-            int i = 0;
-            int j = 0;
-
-            for (i = 0; i < Math.Floor((decimal)(Text.content.Length/2)); i++) {
-                board[Text.originPoint.Item1+i][Text.originPoint.Item2] = (string)(Text.content[j] + "" + Text.content[j+1]);
-                j+=2;
-            }
-
-            // Console.WriteLine("i: " + i);
-            // Console.WriteLine("j: " + j);
-
-            board[Text.originPoint.Item1+i][Text.originPoint.Item2] = (string)(Text.content[Text.content.Length-1] + " ");
-
-            return board;
-        }
-    }
     public class Square
     {
-        public int width;
-        public int height;
-        public System.Tuple<int, int> originPoint;
-        public Square(int widthInput, int heightInput, System.Tuple<int, int> originPointInput)
+        public int Width;
+        public int Height;
+        public System.Tuple<int, int> OriginPoint;
+        public Square(int WidthInput, int HeightInput, System.Tuple<int, int> OriginPointInput)
         {
-            width = widthInput;
-            height = heightInput;
-            originPoint = originPointInput;
+            Width = WidthInput;
+            Height = HeightInput;
+            OriginPoint = OriginPointInput;
         }
         public static Square InputCreate()
         {
-            Square square = new Square(0,0,Tuple.Create(0,0));
-            int tempInt;
-            string tempString;
+            Square Square = new Square(0,0,Tuple.Create(0,0));
+            int TempInt;
+            string TempString;
             FailedSquare1:
                 Console.Write("Origin Position (X): ");
-                tempString = Console.ReadLine();
-            if (!int.TryParse(tempString, out tempInt))
+                TempString = Console.ReadLine();
+            if (!int.TryParse(TempString, out TempInt))
             {
                 goto FailedSquare1;
             }
-            square.originPoint = Tuple.Create(int.Parse(tempString), square.originPoint.Item2);
+            Square.OriginPoint = Tuple.Create(int.Parse(TempString), Square.OriginPoint.Item2);
             FailedSquare2:
                 Console.Write("Origin Position (Y): ");
-                tempString = Console.ReadLine();
-            if (!int.TryParse(tempString, out tempInt))
+                TempString = Console.ReadLine();
+            if (!int.TryParse(TempString, out TempInt))
             {
                 goto FailedSquare2;
             }
-            square.originPoint = Tuple.Create(square.originPoint.Item1, int.Parse(tempString));
+            Square.OriginPoint = Tuple.Create(Square.OriginPoint.Item1, int.Parse(TempString));
             FailedSquare3:
                 Console.Write("Size of Square (Width): ");
-                tempString = Console.ReadLine();
-            if (!int.TryParse(tempString, out tempInt))
+                TempString = Console.ReadLine();
+            if (!int.TryParse(TempString, out TempInt))
             {
                 goto FailedSquare3;
             }
-            square.width = int.Parse(tempString);
+            Square.Width = int.Parse(TempString);
             FailedSquare4:
                 Console.Write("Size of Square (Height): ");
-                tempString = Console.ReadLine();
-            if (!int.TryParse(tempString, out tempInt))
+                TempString = Console.ReadLine();
+            if (!int.TryParse(TempString, out TempInt))
             {
                 goto FailedSquare4;
             }
-            square.height = int.Parse(tempString);
-            return square;
+            Square.Height = int.Parse(TempString);
+            return Square;
         }
-        public static string[][] Create(Square Square, string[][] board)
+        public static string[][] Create(Square Square, string[][] Board)
         {
             int X;
             int Y;
             //bottom side
-            for (X = 0; X < Square.width; X++)
+            for (X = 0; X < Square.Width; X++)
             {
-                board[Square.originPoint.Item1 + X][Square.originPoint.Item2] = "██";
+                Board[Square.OriginPoint.Item1 + X][Square.OriginPoint.Item2] = "██";
             }
             //top side
-            for (X = 0; X < Square.width; X++)
+            for (X = 0; X < Square.Width; X++)
             {
-                board[Square.originPoint.Item1 + X][Square.originPoint.Item2 + Square.height - 1] = "██";
+                Board[Square.OriginPoint.Item1 + X][Square.OriginPoint.Item2 + Square.Height - 1] = "██";
             }
             //left side
-            for (Y = 0; Y < Square.height; Y++)
+            for (Y = 0; Y < Square.Height; Y++)
             {
-                board[Square.originPoint.Item1][Square.originPoint.Item2 + Y] = "██";
+                Board[Square.OriginPoint.Item1][Square.OriginPoint.Item2 + Y] = "██";
             }
             //right side
-            for (Y = 0; Y < Square.height; Y++)
+            for (Y = 0; Y < Square.Height; Y++)
             {
-                board[Square.originPoint.Item1 + Square.width - 1][Square.originPoint.Item2 + Y] = "██";
+                Board[Square.OriginPoint.Item1 + Square.Width - 1][Square.OriginPoint.Item2 + Y] = "██";
             }
-            return board;
+            return Board;
         }
     }
     public class Circle
     {
-        public int radius;
-        public System.Tuple<int, int> originPoint;
-        public Circle(int radiusInput, System.Tuple<int, int> originPointInput)
+        public int Radius;
+        public System.Tuple<int, int> OriginPoint;
+        public Circle(int RadiusInput, System.Tuple<int, int> OriginPointInput)
         {
-            radius = radiusInput;
-            originPoint = originPointInput;
+            Radius = RadiusInput;
+            OriginPoint = OriginPointInput;
         }
         public static Circle InputCreate()
         {
-            Circle circle = new Circle(0, Tuple.Create(0, 0));
-            int tempInt;
-            string tempString;
+            Circle Circle = new Circle(0, Tuple.Create(0, 0));
+            int TempInt;
+            string TempString;
             FailedCircle1:
                 Console.Write("Size of Circle (Radius): ");
-                tempString = Console.ReadLine();
-            if (!int.TryParse(tempString, out tempInt))
+                TempString = Console.ReadLine();
+            if (!int.TryParse(TempString, out TempInt))
             {
                 goto FailedCircle1;
             }
-            circle.radius = int.Parse(tempString);
+            Circle.Radius = int.Parse(TempString);
             FailedCircle2:
                 Console.Write("Origin Position (X): ");
-                tempString = Console.ReadLine();
-            if (!int.TryParse(tempString, out tempInt))
+                TempString = Console.ReadLine();
+            if (!int.TryParse(TempString, out TempInt))
             {
                 goto FailedCircle2;
             }
-            circle.originPoint = Tuple.Create(int.Parse(tempString), circle.originPoint.Item2);
+            Circle.OriginPoint = Tuple.Create(int.Parse(TempString), Circle.OriginPoint.Item2);
             FailedCircle3:
                 Console.Write("Origin Position (Y): ");
-                tempString = Console.ReadLine();
-            if (!int.TryParse(tempString, out tempInt))
+                TempString = Console.ReadLine();
+            if (!int.TryParse(TempString, out TempInt))
             {
                 goto FailedCircle3;
             }
-            circle.originPoint = Tuple.Create(circle.originPoint.Item1, int.Parse(tempString));
+            Circle.OriginPoint = Tuple.Create(Circle.OriginPoint.Item1, int.Parse(TempString));
             
-            return circle;
+            return Circle;
         }
-        public static string[][] Create(Circle Circle, string[][] board)
+        public static string[][] Create(Circle Circle, string[][] Board)
         {
-            for (double i = 1; i < 361; i++)
+            for (double I = 1; I < 361; I++)
             {
                 //copied from Baconzilla#1103 who prob found it on StackOverflow
                 //adaped from Python of course
                 //original code:
                 // dX = distance*math.sin(math.radians(angle))
                 // dY = distance*math.cos(math.radians(angle))
-                int X = (int)(Convert.ToDouble(Circle.radius) * Math.Sin(i));
-                int Y = (int)(Convert.ToDouble(Circle.radius) * Math.Cos(i));
-                board
-                    [Circle.originPoint.Item1 + X/* + Circle.radius*/]
-                    [Circle.originPoint.Item2 + Y/* + Circle.radius*/]
+                int X = (int)(Convert.ToDouble(Circle.Radius) * Math.Sin(I));
+                int Y = (int)(Convert.ToDouble(Circle.Radius) * Math.Cos(I));
+                Board
+                    [Circle.OriginPoint.Item1 + X/* + Circle.radius*/]
+                    [Circle.OriginPoint.Item2 + Y/* + Circle.radius*/]
                 = "██";
             }
-            return board;
+            return Board;
         }
     }
     public class Triangle
@@ -351,14 +298,83 @@ namespace ObjectList
     }
     public class Pixel
     {
-        public System.Tuple<int, int> point;
-        public Pixel(System.Tuple<int, int> pnt)
+        public System.Tuple<int, int> Point;
+        public Pixel(System.Tuple<int, int> PointInput)
         {
-            point = pnt;
+            Point = PointInput;
         }
-        public static string[][] Create(Pixel pixel, string[][] board)
+        public static Pixel InputCreate() {
+            Pixel Pixel = new Pixel(Tuple.Create(0,0));
+            int TempInt;
+            string TempString;
+            FailedPixel1:
+                Console.Write("Point Position (X): ");
+                TempString = Console.ReadLine();
+            if (!int.TryParse(TempString, out TempInt))
+            {
+                goto FailedPixel1;
+            }
+            Pixel.Point = Tuple.Create(int.Parse(TempString), Pixel.Point.Item2);
+            FailedPixel2:
+                Console.Write("Point Position (Y): ");
+                TempString = Console.ReadLine();
+            if (!int.TryParse(TempString, out TempInt))
+            {
+                goto FailedPixel2;
+            }
+            Pixel.Point = Tuple.Create(Pixel.Point.Item1, int.Parse(TempString));
+            return Pixel;
+        }
+        public static string[][] Create(Pixel Pixel, string[][] Board)
         {
-            board[pixel.point.Item1][pixel.point.Item2] = "██";
+            Board[Pixel.Point.Item1][Pixel.Point.Item2] = "██";
+            return Board;
+        }
+    }
+    public class Text
+    {
+        public System.Tuple<int, int> originPoint;
+        public string content;
+        /*public bool orientation;*/
+        public Text(System.Tuple<int, int> originPointInput, string contentInput/*, bool orientationInput*/) {
+            originPoint = originPointInput;
+            content = contentInput;
+            /*orientation = orientationInput;*/
+        }
+        public static Text InputCreate() {
+            Text text = new Text(Tuple.Create(0,0),""/*,false*/);
+            int tempInt;
+            string tempString;
+            FailedText1:
+                Console.Write("Origin Position (X): ");
+                tempString = Console.ReadLine();
+            if (!int.TryParse(tempString, out tempInt))
+            {
+                goto FailedText1;
+            }
+            text.originPoint = Tuple.Create(int.Parse(tempString), text.originPoint.Item2);
+            FailedText2:
+                Console.Write("Origin Position (Y): ");
+                tempString = Console.ReadLine();
+            if (!int.TryParse(tempString, out tempInt))
+            {
+                goto FailedText2;
+            }
+            text.originPoint = Tuple.Create(text.originPoint.Item1, int.Parse(tempString));
+            Console.Write("Content of Text: ");
+            text.content = Console.ReadLine();
+            return text;
+        }
+        public static string[][] Create(Text Text, string[][] board) {
+            int i = 0;
+            int j = 0;
+            for (i = 0; i < Math.Floor((decimal)(Text.content.Length/2)); i++) {
+                board[Text.originPoint.Item1+i][Text.originPoint.Item2] = (string)(Text.content[j] + "" + Text.content[j+1]);
+                j+=2;
+            }
+            if (i*2 != Text.content.Length) {
+                board[Text.originPoint.Item1+i][Text.originPoint.Item2] = (string)(Text.content[Text.content.Length-1] + " ");
+            }
             return board;
         }
     }
@@ -401,9 +417,9 @@ namespace ObjectList
         }
         public static void Print(string[][] board)
         {
-
-            for (int y = board.Length-1; y >= 0; y--) {
-                for (int x = 0; x < board.Length; x++) {
+            int x = 0;
+            for (int y = board[x].Length-1; y >= 0; y--) {
+                for (x = 0; x < board.Length; x++) {
                     if (board[x][y] == null)
                     {
                         Console.Write("  ");
@@ -414,27 +430,6 @@ namespace ObjectList
                 }
                 Console.WriteLine("");
             }
-            
-
-
-
-
-
-
-            /*for (int x = 0; x < board.Length; x++)
-            {
-                for (int y = 0; y < board[x].Length; y++)
-                {
-                    if (board[x][y] == null)
-                    {
-                        Console.Write("[]");
-                    } else
-                    {
-                        Console.Write(board[x][y]);
-                    }
-                }
-                Console.Write("\n");
-            }*/
         }
     }
 }

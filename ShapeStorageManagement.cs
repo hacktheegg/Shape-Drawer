@@ -87,64 +87,64 @@ namespace SQLManagement
                 connection.Close();
             }
 
-            public static void Square(int iteration, Square square)
+            public static void Square(int Iteration, Square Square)
             {
-                CheckIfAnotherRow(iteration);
+                CheckIfAnotherRow(Iteration);
 
-                string connectionString = @"Data Source=ShapeHistory.db;Version=3;";
-                SQLiteConnection connection = new SQLiteConnection(connectionString);
-                connection.Open();
+                string ConnectionString = @"Data Source=ShapeHistory.db;Version=3;";
+                SQLiteConnection Connection = new SQLiteConnection(ConnectionString);
+                Connection.Open();
 
-                string query = "UPDATE Main SET Shape = 'Square' WHERE id = '" + iteration.ToString() + "'";
-                SQLiteCommand command = new SQLiteCommand(query, connection);
-                command.ExecuteNonQuery();
+                string Query = "UPDATE Main SET Shape = 'Square' WHERE id = '" + Iteration.ToString() + "'";
+                SQLiteCommand Command = new SQLiteCommand(Query, Connection);
+                Command.ExecuteNonQuery();
                 
-                query = "UPDATE Main SET ParamOne = '" + square.width.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
-                command = new SQLiteCommand(query, connection);
-                command.ExecuteNonQuery();
+                Query = "UPDATE Main SET ParamOne = '" + Square.Width.ToString() + "' WHERE id = '" + Iteration.ToString() + "'";
+                Command = new SQLiteCommand(Query, Connection);
+                Command.ExecuteNonQuery();
 
-                query = "UPDATE Main SET ParamTwo = '" + square.height.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
-                command = new SQLiteCommand(query, connection);
-                command.ExecuteNonQuery();
+                Query = "UPDATE Main SET ParamTwo = '" + Square.Height.ToString() + "' WHERE id = '" + Iteration.ToString() + "'";
+                Command = new SQLiteCommand(Query, Connection);
+                Command.ExecuteNonQuery();
                 
-                query = "UPDATE Main SET ParamThree = '" + square.originPoint.Item1.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
-                command = new SQLiteCommand(query, connection);
-                command.ExecuteNonQuery();
+                Query = "UPDATE Main SET ParamThree = '" + Square.OriginPoint.Item1.ToString() + "' WHERE id = '" + Iteration.ToString() + "'";
+                Command = new SQLiteCommand(Query, Connection);
+                Command.ExecuteNonQuery();
 
-                query = "UPDATE Main SET ParamFour = '" + square.originPoint.Item2.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
-                command = new SQLiteCommand(query, connection);
-                command.ExecuteNonQuery();
+                Query = "UPDATE Main SET ParamFour = '" + Square.OriginPoint.Item2.ToString() + "' WHERE id = '" + Iteration.ToString() + "'";
+                Command = new SQLiteCommand(Query, Connection);
+                Command.ExecuteNonQuery();
 
 
-                connection.Close();
+                Connection.Close();
             }
 
-            public static void Circle(int iteration, Circle circle)
+            public static void Circle(int Iteration, Circle Circle)
             {
-                CheckIfAnotherRow(iteration);
+                CheckIfAnotherRow(Iteration);
 
-                string connectionString = @"Data Source=ShapeHistory.db;Version=3;";
-                SQLiteConnection connection = new SQLiteConnection(connectionString);
-                connection.Open();
+                string ConnectionString = @"Data Source=ShapeHistory.db;Version=3;";
+                SQLiteConnection Connection = new SQLiteConnection(ConnectionString);
+                Connection.Open();
 
-                string query = "UPDATE Main SET Shape = 'Circle' WHERE id = '" + iteration.ToString() + "'";
-                SQLiteCommand command = new SQLiteCommand(query, connection);
-                command.ExecuteNonQuery();
+                string Query = "UPDATE Main SET Shape = 'Circle' WHERE id = '" + Iteration.ToString() + "'";
+                SQLiteCommand Command = new SQLiteCommand(Query, Connection);
+                Command.ExecuteNonQuery();
 
-                query = "UPDATE Main SET ParamOne = '" + circle.radius.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
-                command = new SQLiteCommand(query, connection);
-                command.ExecuteNonQuery();
+                Query = "UPDATE Main SET ParamOne = '" + Circle.Radius.ToString() + "' WHERE id = '" + Iteration.ToString() + "'";
+                Command = new SQLiteCommand(Query, Connection);
+                Command.ExecuteNonQuery();
 
-                query = "UPDATE Main SET ParamTwo = '" + circle.originPoint.Item1.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
-                command = new SQLiteCommand(query, connection);
-                command.ExecuteNonQuery();
+                Query = "UPDATE Main SET ParamTwo = '" + Circle.OriginPoint.Item1.ToString() + "' WHERE id = '" + Iteration.ToString() + "'";
+                Command = new SQLiteCommand(Query, Connection);
+                Command.ExecuteNonQuery();
 
-                query = "UPDATE Main SET ParamThree = '" + circle.originPoint.Item2.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
-                command = new SQLiteCommand(query, connection);
-                command.ExecuteNonQuery();
+                Query = "UPDATE Main SET ParamThree = '" + Circle.OriginPoint.Item2.ToString() + "' WHERE id = '" + Iteration.ToString() + "'";
+                Command = new SQLiteCommand(Query, Connection);
+                Command.ExecuteNonQuery();
 
 
-                connection.Close();
+                Connection.Close();
             }
 
             public static void Triangle(int iteration, Triangle triangle)
