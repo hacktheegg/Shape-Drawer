@@ -13,7 +13,7 @@ It has a fair amount of utilities for use and I plan on maintaining it for a fai
 
 C# knowledge because it isn't a game creator, only a scaffold.
 
-A code editor. (Mine was Visual Studio 2022)
+A code editor. (Mine was Visual Studio 2022, swapped to Sublime Text)
 
 A way to compile after being built apon.
 
@@ -31,19 +31,19 @@ This is what the shapes are layered on.
 
 ### Creation
 
-```
+```csharp
 string[][] BoardVar = Board.Create(int {Width}, int {Height});
 ```
 
 ### Printing
 
-```
+```csharp
 Board.Print(BoardVar);
 ```
 
 ### Nuances
 
-When a `Board` is created, top left is `(0,0)` and bottom right is `({Width} - 1, {Height} - 1)` I think (Even though I made this I do not know).
+You will need to test the limits of the `Board` yourself, as it is hard to discribe that. Other than that, `(0, 0)` is the bottom left corner of the `Board`.
 
 
 ## `Square`
@@ -54,13 +54,13 @@ Technically a `Rectangle` maker
 
 ### Creation
 
-```
+```csharp
 Square SquareVar = Square.Create(int {Width}, int {Height}, Tuple<int, int> Tuple.Create({x},{y}));
 ```
 
 ### Printing
 
-```
+```csharp
 BoardVar = Square.Create(SquareVar, BoardVar);
 ```
 
@@ -76,13 +76,13 @@ Tis `Circle`. Tis confusing, even when making.
 
 ### Creation
 
-```
-Circle CircleVar = Circle.Create({Radius}, Tuple<int, int> Tuple.Create({x},{y}));
+```csharp
+Circle CircleVar = Circle.Create(int {Radius}, Tuple<int, int> Tuple.Create({x},{y}));
 ```
 
 ### Printing
 
-```
+```csharp
 BoardVar = Square.Create(CircleVar, BoardVar);
 ```
 
@@ -98,7 +98,7 @@ If radius is too big, it might leave gaps in the circumference. This was the sec
 
 ### Creation
 
-```
+```csharp
 Triangle TriangleVar = Triangle.Create(
     Tuple<int, int> Tuple.Create({Point1X},{Point1Y}),
     Tuple<int, int> Tuple.Create({Point2X},{Point2Y}),
@@ -108,13 +108,13 @@ Triangle TriangleVar = Triangle.Create(
 
 ### Printing
 
-```
+```csharp
 BoardVar = Triangle.Create(TriangleVar, BoardVar);
 ```
 
 ### Nuances
 
-¯\\_(ツ)_/¯
+¯\\_(ツ)\_/¯
 
 ## `Line`
 
@@ -124,7 +124,7 @@ The bane of my being, took the longest to make, 3 different versions were tested
 
 ### Creation
 
-```
+```csharp
 Line LineVar = Line.Create(
     Tuple<int, int> Tuple.Create({Point1X},{Point1Y}),
     Tuple<int, int> Tuple.Create({Point2X},{Point2Y})
@@ -133,10 +133,59 @@ Line LineVar = Line.Create(
 
 ### Printing
 
-```
+```csharp
 BoardVar = Line.Create(LineVar, BoardVar);
 ```
 
 ### Nuances
 
 Uses the basis of the `Circle` formula and instead of changing the angle (which is found it a way i don't want to get into), it increments the distance.
+
+## `Pixel`
+
+### About
+
+Literally a single `Pixel`.
+
+### Creation
+
+```csharp
+Pixel PixelVar = Pixel.Create(
+    Tuple<int, int> Tuple.Create({PointX},{PointY})
+);
+```
+
+### Printing
+
+```csharp
+BoardVar = Pixel.Create(LineVar, PixelVar);
+```
+
+### Nuances
+
+Not tested in the slightest.
+
+## `Text`
+
+### About
+
+
+
+### Creation
+
+```
+Text TextVar = Text.Create(
+    Tuple<int, int> Tuple.Create({PointX},{PointY}),
+    string {Content}
+);
+```
+
+### Printing
+
+```
+BoardVar = Text.Create(TextVar, BoardVar);
+```
+
+### Nuances
+
+If `Text.Content.Length` is odd, it leaves a " " after the last char.
