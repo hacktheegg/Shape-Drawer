@@ -92,7 +92,7 @@ class Program
 
         while (true)
         {
-            Board.Print(smoothBoard(board));
+            Board.Print(Board.smoothBoard(board));
             Console.ReadKey(true);
 
             loop:
@@ -153,84 +153,6 @@ class Program
 
             iteration++;
         }
-    }
-
-    static string[][] smoothBoard(string[][] Board)
-    {
-        
-
-        string[][] ReturnBoard = new string[Board.Length][];
-
-        // Console.WriteLine(Board.Length);
-
-        for (int x = 0; x < Board.Length; x++)
-        {
-            ReturnBoard[x] = new string[Board[x].Length];
-
-            // Console.WriteLine("x: " + x);
-
-            for (int y = 0; y < Board[x].Length; y++)
-            {
-                // ObjectList.Board.Print(ReturnBoard);
-
-                // Console.WriteLine("y: " + y);
-
-                if (Board[x][y] == "██")
-                {
-                    bool top = false;
-                    bool left = false;
-                    bool right = false;
-                    bool bottom = false;
-
-                    if (y<Board[x].Length-1) { top = (Board[x][y+1] == "██"); }
-                    if (x>0) { left = (Board[x-1][y] == "██"); }
-                    if (x<Board.Length-1) { right = (Board[x+1][y] == "██"); }
-                    if (y>0) { bottom = (Board[x][y-1] == "██"); }
-
-
-
-                    if (top && left && right && bottom) {
-                        ReturnBoard[x][y] = "╬╬";
-                    } else if (top && left && right && !bottom) {
-                        ReturnBoard[x][y] = "╩╩";
-                    } else if (top && left && !right && bottom) {
-                        ReturnBoard[x][y] = "╣║";
-                    } else if (top && left && !right && !bottom) {
-                        ReturnBoard[x][y] = "╩╝";
-                    } else if (top && !left && right && bottom) {
-                        ReturnBoard[x][y] = "║╠";
-                    } else if (top && !left && right && !bottom) {
-                        ReturnBoard[x][y] = "╚╩";
-                    } else if (top && !left && !right && bottom) {
-                        ReturnBoard[x][y] = "║║";
-                    } else if (top && !left && !right && !bottom) {
-                        ReturnBoard[x][y] = "╚╝";
-                    } else if (!top && left && right && bottom) {
-                        ReturnBoard[x][y] = "╦╦";
-                    } else if (!top && left && right && !bottom) {
-                        ReturnBoard[x][y] = "══";
-                    } else if (!top && left && !right && bottom) {
-                        ReturnBoard[x][y] = "╦╗";
-                    } else if (!top && left && !right && !bottom) {
-                        ReturnBoard[x][y] = "==";
-                    } else if (!top && !left && right && bottom) {
-                        ReturnBoard[x][y] = "╔╦";
-                    } else if (!top && !left && right && !bottom) {
-                        ReturnBoard[x][y] = "==";
-                    } else if (!top && !left && !right && bottom) {
-                        ReturnBoard[x][y] = "╔╗";
-                    } else if (!top && !left && !right && !bottom) {
-                        ReturnBoard[x][y] = "<>";
-                    }
-                }
-                else
-                {
-                    ReturnBoard[x][y] = Board[x][y];
-                }
-            }
-        }
-
-        return ReturnBoard;
     }
 }
 
