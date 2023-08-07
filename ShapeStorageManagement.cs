@@ -159,27 +159,27 @@ namespace SQLManagement
                 SQLiteCommand command = new SQLiteCommand(query, connection);
                 command.ExecuteNonQuery();
 
-                query = "UPDATE Main SET ParamOne = '" + triangle.pointOne.Item1.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
+                query = "UPDATE Main SET ParamOne = '" + triangle.PointOne.Item1.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
                 command = new SQLiteCommand(query, connection);
                 command.ExecuteNonQuery();
 
-                query = "UPDATE Main SET ParamTwo = '" + triangle.pointOne.Item2.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
+                query = "UPDATE Main SET ParamTwo = '" + triangle.PointOne.Item2.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
                 command = new SQLiteCommand(query, connection);
                 command.ExecuteNonQuery();
 
-                query = "UPDATE Main SET ParamThree = '" + triangle.pointTwo.Item1.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
+                query = "UPDATE Main SET ParamThree = '" + triangle.PointTwo.Item1.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
                 command = new SQLiteCommand(query, connection);
                 command.ExecuteNonQuery();
 
-                query = "UPDATE Main SET ParamFour = '" + triangle.pointTwo.Item2.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
+                query = "UPDATE Main SET ParamFour = '" + triangle.PointTwo.Item2.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
                 command = new SQLiteCommand(query, connection);
                 command.ExecuteNonQuery();
 
-                query = "UPDATE Main SET ParamFive = '" + triangle.pointThree.Item1.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
+                query = "UPDATE Main SET ParamFive = '" + triangle.PointThree.Item1.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
                 command = new SQLiteCommand(query, connection);
                 command.ExecuteNonQuery();
 
-                query = "UPDATE Main SET ParamSix = '" + triangle.pointThree.Item2.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
+                query = "UPDATE Main SET ParamSix = '" + triangle.PointThree.Item2.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
                 command = new SQLiteCommand(query, connection);
                 command.ExecuteNonQuery();
 

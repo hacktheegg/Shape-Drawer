@@ -58,29 +58,29 @@ namespace ObjectList
             Square.Height = int.Parse(TempString);
             return Square;
         }
-        public static string[][] Create(Square Square, string[][] Board)
+        public static Board Create(Square Square, Board Board)
         {
             int X;
             int Y;
             //bottom side
             for (X = 0; X < Square.Width; X++)
             {
-                Board[Square.OriginPoint.Item1 + X][Square.OriginPoint.Item2] = "██";
+                Board.Grid[Square.OriginPoint.Item1 + X][Square.OriginPoint.Item2] = "██";
             }
             //top side
             for (X = 0; X < Square.Width; X++)
             {
-                Board[Square.OriginPoint.Item1 + X][Square.OriginPoint.Item2 + Square.Height - 1] = "██";
+                Board.Grid[Square.OriginPoint.Item1 + X][Square.OriginPoint.Item2 + Square.Height - 1] = "██";
             }
             //left side
             for (Y = 0; Y < Square.Height; Y++)
             {
-                Board[Square.OriginPoint.Item1][Square.OriginPoint.Item2 + Y] = "██";
+                Board.Grid[Square.OriginPoint.Item1][Square.OriginPoint.Item2 + Y] = "██";
             }
             //right side
             for (Y = 0; Y < Square.Height; Y++)
             {
-                Board[Square.OriginPoint.Item1 + Square.Width - 1][Square.OriginPoint.Item2 + Y] = "██";
+                Board.Grid[Square.OriginPoint.Item1 + Square.Width - 1][Square.OriginPoint.Item2 + Y] = "██";
             }
             return Board;
         }
@@ -126,7 +126,7 @@ namespace ObjectList
             
             return Circle;
         }
-        public static string[][] Create(Circle Circle, string[][] Board)
+        public static Board Create(Circle Circle, Board Board)
         {
             for (double I = 1; I < 361; I++)
             {
@@ -137,7 +137,7 @@ namespace ObjectList
                 // dY = distance*math.cos(math.radians(angle))
                 int X = (int)(Convert.ToDouble(Circle.Radius) * Math.Sin(I));
                 int Y = (int)(Convert.ToDouble(Circle.Radius) * Math.Cos(I));
-                Board
+                Board.Grid
                     [Circle.OriginPoint.Item1 + X/* + Circle.radius*/]
                     [Circle.OriginPoint.Item2 + Y/* + Circle.radius*/]
                 = "██";
@@ -147,18 +147,18 @@ namespace ObjectList
     }
     public class Triangle
     {
-        public System.Tuple<int, int> pointOne;
-        public System.Tuple<int, int> pointTwo;
-        public System.Tuple<int, int> pointThree;
+        public System.Tuple<int, int> PointOne;
+        public System.Tuple<int, int> PointTwo;
+        public System.Tuple<int, int> PointThree;
         public Triangle(System.Tuple<int, int> pnt1, System.Tuple<int, int> pnt2, System.Tuple<int, int> pnt3)
         {
-            pointOne = pnt1;
-            pointTwo = pnt2;
-            pointThree = pnt3;
+            PointOne = pnt1;
+            PointTwo = pnt2;
+            PointThree = pnt3;
         }
         public static Triangle InputCreate()
         {
-            Triangle triangle = new Triangle(Tuple.Create(0, 0), Tuple.Create(0, 0), Tuple.Create(0, 0));
+            Triangle Triangle = new Triangle(Tuple.Create(0, 0), Tuple.Create(0, 0), Tuple.Create(0, 0));
             int tempInt;
             string tempString;
             FailedLine1:
@@ -168,7 +168,7 @@ namespace ObjectList
             {
                 goto FailedLine1;
             }
-            triangle.pointOne = Tuple.Create(int.Parse(tempString), triangle.pointOne.Item2);
+            Triangle.PointOne = Tuple.Create(int.Parse(tempString), Triangle.PointOne.Item2);
             FailedLine2:
                 Console.Write("Point1 Position (Y): ");
                 tempString = Console.ReadLine();
@@ -176,7 +176,7 @@ namespace ObjectList
             {
                 goto FailedLine2;
             }
-            triangle.pointOne = Tuple.Create(triangle.pointOne.Item1, int.Parse(tempString));
+            Triangle.PointOne = Tuple.Create(Triangle.PointOne.Item1, int.Parse(tempString));
             FailedLine3:
                 Console.Write("Point2 Position (X): ");
                 tempString = Console.ReadLine();
@@ -184,7 +184,7 @@ namespace ObjectList
             {
                 goto FailedLine3;
             }
-            triangle.pointTwo = Tuple.Create(int.Parse(tempString), triangle.pointTwo.Item2);
+            Triangle.PointTwo = Tuple.Create(int.Parse(tempString), Triangle.PointTwo.Item2);
             FailedLine4:
                 Console.Write("Point2 Position (Y): ");
                 tempString = Console.ReadLine();
@@ -192,7 +192,7 @@ namespace ObjectList
             {
                 goto FailedLine4;
             }
-            triangle.pointTwo = Tuple.Create(triangle.pointTwo.Item1, int.Parse(tempString));
+            Triangle.PointTwo = Tuple.Create(Triangle.PointTwo.Item1, int.Parse(tempString));
             FailedLine5:
                 Console.Write("Point3 Position (X): ");
                 tempString = Console.ReadLine();
@@ -200,7 +200,7 @@ namespace ObjectList
             {
                 goto FailedLine5;
             }
-            triangle.pointThree = Tuple.Create(int.Parse(tempString), triangle.pointThree.Item2);
+            Triangle.PointThree = Tuple.Create(int.Parse(tempString), Triangle.PointThree.Item2);
             FailedLine6:
                 Console.Write("Point3 Position (Y): ");
                 tempString = Console.ReadLine();
@@ -208,18 +208,18 @@ namespace ObjectList
             {
                 goto FailedLine6;
             }
-            triangle.pointThree = Tuple.Create(triangle.pointThree.Item1, int.Parse(tempString));
-            return triangle;
+            Triangle.PointThree = Tuple.Create(Triangle.PointThree.Item1, int.Parse(tempString));
+            return Triangle;
         }
-        public static string[][] Create(Triangle triangle, string[][] board)
+        public static Board Create(Triangle Triangle, Board Board)
         {
-            Line line = new Line(triangle.pointOne, triangle.pointTwo);
-            board = Line.Create(line, board);
-            line = new Line(triangle.pointTwo, triangle.pointThree);
-            board = Line.Create(line, board);
-            line = new Line(triangle.pointThree, triangle.pointOne);
-            board = Line.Create(line, board);
-            return board;
+            Line Line = new Line(Triangle.PointOne, Triangle.PointTwo);
+            Board = Line.Create(Line, Board);
+            Line = new Line(Triangle.PointTwo, Triangle.PointThree);
+            Board = Line.Create(Line, Board);
+            Line = new Line(Triangle.PointThree, Triangle.PointOne);
+            Board = Line.Create(Line, Board);
+            return Board;
         }
     }
     public class Line
@@ -270,7 +270,7 @@ namespace ObjectList
             line.pointTwo = Tuple.Create(line.pointTwo.Item1, int.Parse(tempString));
             return line;
         }
-        public static string[][] Create(Line line, string[][] board)
+        public static Board Create(Line Line, Board board)
         {
             //I dont care if this is chatGPT, I tried 3 different methods that all didnt work
 
@@ -282,16 +282,16 @@ namespace ObjectList
             //and finally i tried to get an angle and length instead, but i want it to be as easy to use
             // as possible and having points is the easiest way
 
-            double DifferenceX = line.pointTwo.Item1 - line.pointOne.Item1;
-            double DifferenceY = line.pointTwo.Item2 - line.pointOne.Item2;
+            double DifferenceX = Line.pointTwo.Item1 - Line.pointOne.Item1;
+            double DifferenceY = Line.pointTwo.Item2 - Line.pointOne.Item2;
             double angle = Math.Atan2(DifferenceX, DifferenceY);
             double angle_degrees = angle * 180 / Math.PI;
-            double distance = Math.Sqrt(Math.Pow(line.pointTwo.Item1 - line.pointOne.Item1, 2) + Math.Pow(line.pointTwo.Item2 - line.pointOne.Item2, 2));
+            double distance = Math.Sqrt(Math.Pow(Line.pointTwo.Item1 - Line.pointOne.Item1, 2) + Math.Pow(Line.pointTwo.Item2 - Line.pointOne.Item2, 2));
             for (int i = 0; i < distance; i++)
             {
                 int X = (int)(Convert.ToDouble(i) * Math.Sin(angle));
                 int Y = (int)(Convert.ToDouble(i) * Math.Cos(angle));
-                board[X + line.pointOne.Item1][Y + line.pointOne.Item2] = "██";
+                board.Grid[X + Line.pointOne.Item1][Y + Line.pointOne.Item2] = "██";
             }
             return board;
         }
@@ -325,9 +325,9 @@ namespace ObjectList
             Pixel.Point = Tuple.Create(Pixel.Point.Item1, int.Parse(TempString));
             return Pixel;
         }
-        public static string[][] Create(Pixel Pixel, string[][] Board)
+        public static Board Create(Pixel Pixel, Board Board)
         {
-            Board[Pixel.Point.Item1][Pixel.Point.Item2] = "██";
+            Board.Grid[Pixel.Point.Item1][Pixel.Point.Item2] = "██";
             return Board;
         }
     }
@@ -365,37 +365,40 @@ namespace ObjectList
             text.content = Console.ReadLine();
             return text;
         }
-        public static string[][] Create(Text Text, string[][] board) {
+        public static Board Create(Text Text, Board board) {
             int i = 0;
             int j = 0;
             for (i = 0; i < Math.Floor((decimal)(Text.content.Length/2)); i++) {
-                board[Text.originPoint.Item1+i][Text.originPoint.Item2] = (string)(Text.content[j] + "" + Text.content[j+1]);
+                board.Grid[Text.originPoint.Item1+i][Text.originPoint.Item2] = (string)(Text.content[j] + "" + Text.content[j+1]);
                 j+=2;
             }
             if (i*2 != Text.content.Length) {
-                board[Text.originPoint.Item1+i][Text.originPoint.Item2] = (string)(Text.content[Text.content.Length-1] + " ");
+                board.Grid[Text.originPoint.Item1+i][Text.originPoint.Item2] = (string)(Text.content[Text.content.Length-1] + " ");
             }
             return board;
         }
     }
     public class Board
     {
-        public static string[][] Create(int Width, int Height)
-        {
-            string[][] returnValue = new string[Width][];
-            for (int x = 0; x < returnValue.Length; x++)
-            {
-                returnValue[x] = new string[Height];
+        public int Width;
+        public int Height;
+        public string[][] Grid;
+        public Board(int WidthInput, int HeightInput) {
+            Width = WidthInput;
+            Height = HeightInput;
+            Grid = new string[Width][];
 
-                for (int y = 0; y < returnValue[x].Length; y++)
+            for (int x = 0; x < Width; x++)
+            {
+                Grid[x] = new string[Height];
+
+                for (int y = 0; y < Height; y++)
                 {
-                    returnValue[x][y] = "  ";
+                    Grid[x][y] = "  ";
                 }
             }
-
-            return returnValue;
         }
-        public static int[] InputCreate()
+        public static Board InputCreate()
         {
             int tempInt;
             FailedInputBoardWidth:
@@ -413,95 +416,94 @@ namespace ObjectList
                 goto FailedInputBoardHeight;
             }
             int[] temp = { int.Parse(width), int.Parse(height) };
-            return temp;
+            return new Board(temp[0], temp[1]);
         }
-        public static void Print(string[][] board)
+        public static void Print(Board board)
         {
             int x = 0;
-            for (int y = board[x].Length-1; y >= 0; y--) {
-                for (x = 0; x < board.Length; x++) {
-                    if (board[x][y] == null)
+            for (int y = board.Height-1; y >= 0; y--) {
+                for (x = 0; x < board.Width; x++) {
+                    if (board.Grid[x][y] == null)
                     {
                         Console.Write("  ");
                     } else
                     {
-                        Console.Write(board[x][y]);
+                        Console.Write(board.Grid[x][y]);
                     }
                 }
                 Console.WriteLine("");
             }
         }
-        public static string[][] smoothBoard(string[][] Board)
+        public static Board smoothBoard(Board Board)
         {
             
 
-            string[][] ReturnBoard = new string[Board.Length][];
+            Board ReturnBoard = new Board(Board.Width, Board.Height);
 
             // Console.WriteLine(Board.Length);
 
-            for (int x = 0; x < Board.Length; x++)
+            for (int x = 0; x < Board.Width; x++)
             {
-                ReturnBoard[x] = new string[Board[x].Length];
 
                 // Console.WriteLine("x: " + x);
 
-                for (int y = 0; y < Board[x].Length; y++)
+                for (int y = 0; y < Board.Height; y++)
                 {
                     // ObjectList.Board.Print(ReturnBoard);
 
                     // Console.WriteLine("y: " + y);
 
-                    if (Board[x][y] == "██")
+                    if (Board.Grid[x][y] == "██")
                     {
                         bool top = false;
                         bool left = false;
                         bool right = false;
                         bool bottom = false;
 
-                        if (y<Board[x].Length-1) { top = (Board[x][y+1] == "██"); }
-                        if (x>0) { left = (Board[x-1][y] == "██"); }
-                        if (x<Board.Length-1) { right = (Board[x+1][y] == "██"); }
-                        if (y>0) { bottom = (Board[x][y-1] == "██"); }
+                        if (y<Board.Height-1) { top = (Board.Grid[x][y+1] == "██"); }
+                        if (x>0) { left = (Board.Grid[x-1][y] == "██"); }
+                        if (x<Board.Width-1) { right = (Board.Grid[x+1][y] == "██"); }
+                        if (y>0) { bottom = (Board.Grid[x][y-1] == "██"); }
 
 
 
                         if (top && left && right && bottom) {
-                            ReturnBoard[x][y] = "╬╬";
+                            ReturnBoard.Grid[x][y] = "╬╬";
                         } else if (top && left && right && !bottom) {
-                            ReturnBoard[x][y] = "╩╩";
+                            ReturnBoard.Grid[x][y] = "╩╩";
                         } else if (top && left && !right && bottom) {
-                            ReturnBoard[x][y] = "╣║";
+                            ReturnBoard.Grid[x][y] = "╣║";
                         } else if (top && left && !right && !bottom) {
-                            ReturnBoard[x][y] = "╩╝";
+                            ReturnBoard.Grid[x][y] = "╩╝";
                         } else if (top && !left && right && bottom) {
-                            ReturnBoard[x][y] = "║╠";
+                            ReturnBoard.Grid[x][y] = "║╠";
                         } else if (top && !left && right && !bottom) {
-                            ReturnBoard[x][y] = "╚╩";
+                            ReturnBoard.Grid[x][y] = "╚╩";
                         } else if (top && !left && !right && bottom) {
-                            ReturnBoard[x][y] = "║║";
+                            ReturnBoard.Grid[x][y] = "║║";
                         } else if (top && !left && !right && !bottom) {
-                            ReturnBoard[x][y] = "╚╝";
+                            ReturnBoard.Grid[x][y] = "╚╝";
                         } else if (!top && left && right && bottom) {
-                            ReturnBoard[x][y] = "╦╦";
+                            ReturnBoard.Grid[x][y] = "╦╦";
                         } else if (!top && left && right && !bottom) {
-                            ReturnBoard[x][y] = "══";
+                            ReturnBoard.Grid[x][y] = "══";
                         } else if (!top && left && !right && bottom) {
-                            ReturnBoard[x][y] = "╦╗";
+                            ReturnBoard.Grid[x][y] = "╦╗";
                         } else if (!top && left && !right && !bottom) {
-                            ReturnBoard[x][y] = "==";
+                            ReturnBoard.Grid[x][y] = "==";
                         } else if (!top && !left && right && bottom) {
-                            ReturnBoard[x][y] = "╔╦";
+                            ReturnBoard.Grid[x][y] = "╔╦";
                         } else if (!top && !left && right && !bottom) {
-                            ReturnBoard[x][y] = "==";
+                            ReturnBoard.Grid[x][y] = "==";
                         } else if (!top && !left && !right && bottom) {
-                            ReturnBoard[x][y] = "╔╗";
+                            ReturnBoard.Grid[x][y] = "╔╗";
                         } else if (!top && !left && !right && !bottom) {
-                            ReturnBoard[x][y] = "<>";
+                            ReturnBoard.Grid[x][y] = "<>";
                         }
                     }
                     else
                     {
-                        ReturnBoard[x][y] = Board[x][y];
+                        ReturnBoard.Grid[x][y] = Board.Grid[x][y];
                     }
                 }
             }

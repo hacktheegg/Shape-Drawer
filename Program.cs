@@ -21,7 +21,7 @@ class Program
         int tempInt;
 
 
-        string[][] board = Board.Create(2, 2);
+        Board board = new Board(0, 0);
 
 
 
@@ -39,7 +39,7 @@ class Program
 
                 if (Row.Item1 == "Board")
                 {
-                    board = Board.Create(Row.Item2.Item1, Row.Item2.Item2);
+                    board = new Board(Row.Item2.Item1, Row.Item2.Item2);
                 } else if (Row.Item1 == "Square")
                 {
                     Square ReadFromFileSquare = new Square(Row.Item2.Item1, Row.Item2.Item2, Tuple.Create(Row.Item2.Item3, Row.Item2.Item4));
@@ -74,13 +74,12 @@ class Program
         } else
         {
             //New Board
-            int[] boardCreateTemp = Board.InputCreate();
-            board = Board.Create(boardCreateTemp[0], boardCreateTemp[1]);
-            SQLManagement.values.Add.Board(iteration, boardCreateTemp[0], boardCreateTemp[1]);
+            board = Board.InputCreate();
+            SQLManagement.values.Add.Board(iteration, board.Width, board.Height);
             iteration++;
 
             //Adds Border
-            Square Border = new Square(boardCreateTemp[0], boardCreateTemp[1], Tuple.Create(0,0));
+            Square Border = new Square(board.Width, board.Height, Tuple.Create(0,0));
             board = Square.Create(Border, board);
             SQLManagement.values.Add.Square(iteration, Border);
             iteration++;
