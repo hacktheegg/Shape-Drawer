@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace ObjectList
 {
@@ -333,13 +334,13 @@ namespace ObjectList
     }
     public class Text
     {
-        public System.Tuple<int, int> originPoint;
-        public string content;
+        public System.Tuple<int, int> OriginPoint;
+        public string Content;
         /*public bool orientation;*/
-        public Text(System.Tuple<int, int> originPointInput, string contentInput/*, bool orientationInput*/) {
-            originPoint = originPointInput;
-            content = contentInput;
-            /*orientation = orientationInput;*/
+        public Text(System.Tuple<int, int> OriginPointInput, string ContentInput/*, bool OrientationInput*/) {
+            OriginPoint = OriginPointInput;
+            Content = ContentInput;
+            /*Orientation = OrientationInput;*/
         }
         public static Text InputCreate() {
             Text text = new Text(Tuple.Create(0,0),""/*,false*/);
@@ -352,7 +353,7 @@ namespace ObjectList
             {
                 goto FailedText1;
             }
-            text.originPoint = Tuple.Create(int.Parse(tempString), text.originPoint.Item2);
+            text.OriginPoint = Tuple.Create(int.Parse(tempString), text.OriginPoint.Item2);
             FailedText2:
                 Console.Write("Origin Position (Y): ");
                 tempString = Console.ReadLine();
@@ -360,22 +361,94 @@ namespace ObjectList
             {
                 goto FailedText2;
             }
-            text.originPoint = Tuple.Create(text.originPoint.Item1, int.Parse(tempString));
+            text.OriginPoint = Tuple.Create(text.OriginPoint.Item1, int.Parse(tempString));
             Console.Write("Content of Text: ");
-            text.content = Console.ReadLine();
+            text.Content = Console.ReadLine();
             return text;
         }
         public static Board Create(Text Text, Board board) {
             int i = 0;
             int j = 0;
-            for (i = 0; i < Math.Floor((decimal)(Text.content.Length/2)); i++) {
-                board.Grid[Text.originPoint.Item1+i][Text.originPoint.Item2] = (string)(Text.content[j] + "" + Text.content[j+1]);
+            for (i = 0; i < Math.Floor((decimal)(Text.Content.Length/2)); i++) {
+                board.Grid[Text.OriginPoint.Item1+i][Text.OriginPoint.Item2] = (string)(Text.Content[j] + "" + Text.Content[j+1]);
                 j+=2;
             }
-            if (i*2 != Text.content.Length) {
-                board.Grid[Text.originPoint.Item1+i][Text.originPoint.Item2] = (string)(Text.content[Text.content.Length-1] + " ");
+            if (i*2 != Text.Content.Length) {
+                board.Grid[Text.OriginPoint.Item1+i][Text.OriginPoint.Item2] = (string)(Text.Content[Text.Content.Length-1] + " ");
             }
             return board;
+        }
+    }
+    public class Menu
+    {
+        public string[] Values;
+        private int SelectedOption = 0;
+        public System.Tuple<int, int> OriginPoint;
+
+        public Menu(int NumberOfValues, System.Tuple<int, int> OriginPointInput) {
+            Values = new string[NumberOfValues];
+            OriginPoint = OriginPointInput;
+        }
+        public static Board Create(Menu Menu, Board Board) {
+            Text TempText = new Text(Tuple.Create(0,0), "");
+
+            for (int i = 0; i < Menu.Values.Length; i++) {
+                TempText.Content = Menu.Values[i];
+                TempText.OriginPoint = Tuple.Create(Menu.OriginPoint.Item1, Menu.OriginPoint.Item2+i);
+                Board = Text.Create(TempText, Board);
+            }
+
+            Console.WriteLine(Menu.SelectedOption);
+
+            return Board;
+        }
+        public int Activate(this Menu, Board Board) {
+            KeyListener Listener = new Utilities.KeyListener();
+            private Board PrivateBoard = Board;
+
+            Thread thread = new Thread(() => {
+                Listener.StartListening();
+            });
+
+            thread.Start();
+
+            while (!Listener.EnterKeyState) {
+                if (Listener.UpKeyState) {
+                    SelectedOption++;
+                    PrivateBoard = Menu.Create(Menu, Board);
+                } else if (Listener.DownKeyState) {
+                    SelectedOption--;
+                    PrivateBoard = Menu.Create(Menu, Board);
+                }
+            }
+
+            Listener.StopListening();
+            thread.Join();
+            return Menu.SelectedOption;
+
+
+
+
+            /*Thread Thread = new Thread(() => { Utilities.KeyListener Listener = new KeyListener() });
+
+            Thread.Start(); }
+
+            private Board PrivateBoard = Board;
+
+            while (!Listener.enterKeyState) {
+                //PrivateBoard = Menu.Create(this, Board);
+
+                if (Listener.upKeyState) {
+                    SelectedOption++;
+                    PrivateBoard = Menu.Create(this, Board);
+                } else if (Listener.downKeyState) {
+                    SelectedOption--;
+                    PrivateBoard = Menu.Create(this, Board);
+                }
+            }
+
+            Thread.Abort();
+            return SelectedOption;*/
         }
     }
     public class Board
@@ -509,6 +582,56 @@ namespace ObjectList
             }
 
             return ReturnBoard;
+        }
+    }
+    public class Utilities
+    {
+        public class KeyListener
+        {
+            // Global variables
+            public bool UpKeyState { get; private set; }
+            public bool DownKeyState { get; private set; }
+            public bool EnterKeyState { get; private set; }
+
+            private Form Form;
+
+            public void StartListening()
+            {
+                // Create a new invisible form
+                Form = new Form();
+                Form.ShowInTaskbar = false;
+                Form.FormBorderStyle = FormBorderStyle.None;
+                Form.Load += (s, e) => { form.Size = new System.Drawing.Size(0, 0); };
+                Form.Show();
+
+                // Attach the key event handlers
+                form.KeyDown += (s, e) => 
+                { 
+                    if (e.KeyCode == Keys.Up)
+                        upKeyState = true;
+                    else if (e.KeyCode == Keys.Down)
+                        downKeyState = true;
+                    else if (e.KeyCode == Keys.Enter)
+                        enterKeyState = true;
+                };
+                form.KeyUp += (s, e) => 
+                { 
+                    if (e.KeyCode == Keys.Up)
+                        upKeyState = false;
+                    else if (e.KeyCode == Keys.Down)
+                        downKeyState = false;
+                    else if (e.KeyCode == Keys.Enter)
+                        enterKeyState = false;
+                };
+
+                // Run the form
+                Application.Run(form);
+            }
+            public void StopListening()
+            {
+                Form.Close();
+                Form.Dispose();
+            }
         }
     }
 }

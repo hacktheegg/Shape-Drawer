@@ -71,15 +71,15 @@ namespace SQLManagement
                 SQLiteCommand command = new SQLiteCommand(query, connection);
                 command.ExecuteNonQuery();
 
-                query = "UPDATE Main SET ParamOne = '" + text.originPoint.Item1.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
+                query = "UPDATE Main SET ParamOne = '" + text.OriginPoint.Item1.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
                 command = new SQLiteCommand(query, connection);
                 command.ExecuteNonQuery();
 
-                query = "UPDATE Main SET ParamTwo = '" + text.originPoint.Item2.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
+                query = "UPDATE Main SET ParamTwo = '" + text.OriginPoint.Item2.ToString() + "' WHERE id = '" + iteration.ToString() + "'";
                 command = new SQLiteCommand(query, connection);
                 command.ExecuteNonQuery();
 
-                query = "UPDATE Main SET Content = '" + text.content + "' WHERE id = '" + iteration.ToString() + "'";
+                query = "UPDATE Main SET Content = '" + text.Content + "' WHERE id = '" + iteration.ToString() + "'";
                 command = new SQLiteCommand(query, connection);
                 command.ExecuteNonQuery();
 

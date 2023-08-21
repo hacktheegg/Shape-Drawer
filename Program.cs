@@ -16,6 +16,34 @@ class Program
 
     static void Main(string[] args)
     {
+
+
+        while (true) {
+
+            Board Board = new Board(40, 20);
+            Square Border = new Square(Board.Width, Board.Height, Tuple.Create(0,0));
+
+            Board = Square.Create(Border, Board);
+
+            Menu Menu = new Menu(3, Tuple.Create(2,2));
+
+            Menu.Values = new string[3]{"test1", "value2", "input3"};
+
+            Menu.Activate(Board);
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
         SQLManagement.values.CheckIfFile();
         int iteration = 1;
         int tempInt;
