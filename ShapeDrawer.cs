@@ -4,8 +4,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.ExceptionServices;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace ObjectList
 {
@@ -402,53 +402,31 @@ namespace ObjectList
 
             return Board;
         }
-        public int Activate(this Menu, Board Board) {
-            KeyListener Listener = new Utilities.KeyListener();
-            private Board PrivateBoard = Board;
+        public int Activate(Board board) {
+            Utilities.KeyListener listener = new Utilities.KeyListener();
+            Board privateBoard = board;
 
             Thread thread = new Thread(() => {
-                Listener.StartListening();
+                listener.StartListening();
             });
 
             thread.Start();
 
-            while (!Listener.EnterKeyState) {
-                if (Listener.UpKeyState) {
+            while (!listener.EnterKeyState) {
+                if (listener.UpKeyState) {
                     SelectedOption++;
-                    PrivateBoard = Menu.Create(Menu, Board);
-                } else if (Listener.DownKeyState) {
+                    privateBoard = Create(this, board);
+                    Board.Print(Board.smoothBoard(privateBoard));
+                } else if (listener.DownKeyState) {
                     SelectedOption--;
-                    PrivateBoard = Menu.Create(Menu, Board);
+                    privateBoard = Create(this, board);
+                    Board.Print(Board.smoothBoard(privateBoard));
                 }
             }
 
-            Listener.StopListening();
+            listener.StopListening();
             thread.Join();
-            return Menu.SelectedOption;
-
-
-
-
-            /*Thread Thread = new Thread(() => { Utilities.KeyListener Listener = new KeyListener() });
-
-            Thread.Start(); }
-
-            private Board PrivateBoard = Board;
-
-            while (!Listener.enterKeyState) {
-                //PrivateBoard = Menu.Create(this, Board);
-
-                if (Listener.upKeyState) {
-                    SelectedOption++;
-                    PrivateBoard = Menu.Create(this, Board);
-                } else if (Listener.downKeyState) {
-                    SelectedOption--;
-                    PrivateBoard = Menu.Create(this, Board);
-                }
-            }
-
-            Thread.Abort();
-            return SelectedOption;*/
+            return SelectedOption;
         }
     }
     public class Board
@@ -601,31 +579,31 @@ namespace ObjectList
                 Form = new Form();
                 Form.ShowInTaskbar = false;
                 Form.FormBorderStyle = FormBorderStyle.None;
-                Form.Load += (s, e) => { form.Size = new System.Drawing.Size(0, 0); };
+                Form.Load += (s, e) => { Form.Size = new System.Drawing.Size(0, 0); };
                 Form.Show();
 
                 // Attach the key event handlers
-                form.KeyDown += (s, e) => 
+                Form.KeyDown += (s, e) => 
                 { 
                     if (e.KeyCode == Keys.Up)
-                        upKeyState = true;
+                        UpKeyState = true;
                     else if (e.KeyCode == Keys.Down)
-                        downKeyState = true;
+                        DownKeyState = true;
                     else if (e.KeyCode == Keys.Enter)
-                        enterKeyState = true;
+                        EnterKeyState = true;
                 };
-                form.KeyUp += (s, e) => 
+                Form.KeyUp += (s, e) => 
                 { 
                     if (e.KeyCode == Keys.Up)
-                        upKeyState = false;
+                        UpKeyState = false;
                     else if (e.KeyCode == Keys.Down)
-                        downKeyState = false;
+                        DownKeyState = false;
                     else if (e.KeyCode == Keys.Enter)
-                        enterKeyState = false;
+                        EnterKeyState = false;
                 };
 
                 // Run the form
-                Application.Run(form);
+                Application.Run(Form);
             }
             public void StopListening()
             {
@@ -635,3 +613,26 @@ namespace ObjectList
         }
     }
 }
+
+
+
+            /*Thread Thread = new Thread(() => { Utilities.KeyListener Listener = new KeyListener() });
+
+            Thread.Start(); }
+
+            private Board PrivateBoard = Board;
+
+            while (!Listener.enterKeyState) {
+                //PrivateBoard = Menu.Create(this, Board);
+
+                if (Listener.upKeyState) {
+                    SelectedOption++;
+                    PrivateBoard = Menu.Create(this, Board);
+                } else if (Listener.downKeyState) {
+                    SelectedOption--;
+                    PrivateBoard = Menu.Create(this, Board);
+                }
+            }
+
+            Thread.Abort();
+            return SelectedOption;*/
