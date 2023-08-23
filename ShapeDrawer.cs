@@ -398,7 +398,7 @@ namespace ObjectList
                 Board = Text.Create(TempText, Board);
             }
 
-            Console.WriteLine(Menu.SelectedOption);
+            //Console.WriteLine(Menu.SelectedOption);
 
             return Board;
         }
@@ -412,15 +412,29 @@ namespace ObjectList
 
             thread.Start();
 
+            bool UpContinuousPress = false;
+            bool DownContinuousPress = false;
+
             while (!listener.EnterKeyState) {
-                if (listener.UpKeyState) {
+                if (listener.UpKeyState && (UpContinuousPress == false)) {
                     SelectedOption++;
                     privateBoard = Create(this, board);
                     Board.Print(Board.smoothBoard(privateBoard));
-                } else if (listener.DownKeyState) {
+                    UpContinuousPress = true;
+
+                } else if (!listener.UpKeyState) {
+                    UpContinuousPress = false;
+                }
+                
+
+                if (listener.DownKeyState && (DownContinuousPress == false)) {
                     SelectedOption--;
                     privateBoard = Create(this, board);
                     Board.Print(Board.smoothBoard(privateBoard));
+                    DownContinuousPress = true;
+                
+                } else if (!listener.DownKeyState) {
+                    DownContinuousPress = false;
                 }
             }
 
@@ -469,8 +483,12 @@ namespace ObjectList
             int[] temp = { int.Parse(width), int.Parse(height) };
             return new Board(temp[0], temp[1]);
         }
-        public static void Print(Board board)
+        public static void Print(Board board, bool ClearConsole = false)
         {
+            if (ClearConsole) {
+                Console.Clear();
+            }
+
             int x = 0;
             for (int y = board.Height-1; y >= 0; y--) {
                 for (x = 0; x < board.Width; x++) {
@@ -613,26 +631,3 @@ namespace ObjectList
         }
     }
 }
-
-
-
-            /*Thread Thread = new Thread(() => { Utilities.KeyListener Listener = new KeyListener() });
-
-            Thread.Start(); }
-
-            private Board PrivateBoard = Board;
-
-            while (!Listener.enterKeyState) {
-                //PrivateBoard = Menu.Create(this, Board);
-
-                if (Listener.upKeyState) {
-                    SelectedOption++;
-                    PrivateBoard = Menu.Create(this, Board);
-                } else if (Listener.downKeyState) {
-                    SelectedOption--;
-                    PrivateBoard = Menu.Create(this, Board);
-                }
-            }
-
-            Thread.Abort();
-            return SelectedOption;*/
