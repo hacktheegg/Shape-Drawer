@@ -393,7 +393,12 @@ namespace ObjectList
             Text TempText = new Text(Tuple.Create(0,0), "");
 
             for (int i = 0; i < Menu.Values.Length; i++) {
-                TempText.Content = Menu.Values[i];
+                if (Menu.SelectedOption == i) {
+                    TempText.Content = "><" + Menu.Values[i];
+                } else {
+                    TempText.Content = "[]" + Menu.Values[i];
+                }
+                
                 TempText.OriginPoint = Tuple.Create(Menu.OriginPoint.Item1, Menu.OriginPoint.Item2+i);
                 Board = Text.Create(TempText, Board);
             }
@@ -417,9 +422,14 @@ namespace ObjectList
 
             while (!listener.EnterKeyState) {
                 if (listener.UpKeyState && (UpContinuousPress == false)) {
+                    
                     SelectedOption++;
+                    if (SelectedOption >= this.Values.Length) {
+                        SelectedOption = 0;
+                    }
+
                     privateBoard = Create(this, board);
-                    Board.Print(Board.smoothBoard(privateBoard));
+                    Board.Print(Board.smoothBoard(privateBoard), true);
                     UpContinuousPress = true;
 
                 } else if (!listener.UpKeyState) {
@@ -428,9 +438,14 @@ namespace ObjectList
                 
 
                 if (listener.DownKeyState && (DownContinuousPress == false)) {
+
                     SelectedOption--;
+                    if (SelectedOption < 0) {
+                        SelectedOption = this.Values.Length-1;
+                    }
+
                     privateBoard = Create(this, board);
-                    Board.Print(Board.smoothBoard(privateBoard));
+                    Board.Print(Board.smoothBoard(privateBoard), true);
                     DownContinuousPress = true;
                 
                 } else if (!listener.DownKeyState) {

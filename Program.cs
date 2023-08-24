@@ -19,7 +19,6 @@ class Program
 
 
         while (true) {
-            Console.ReadLine();
             Console.WriteLine("test");
 
             Board Board = new Board(40, 20);
