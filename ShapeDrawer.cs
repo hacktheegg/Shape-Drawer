@@ -407,7 +407,7 @@ namespace ObjectList
 
             return Board;
         }
-        public int Activate(Board board) {
+        public Tuple<int, string> Activate(Board board) {
             Utilities.KeyListener listener = new Utilities.KeyListener();
             Board privateBoard = board;
 
@@ -420,8 +420,17 @@ namespace ObjectList
             bool UpContinuousPress = false;
             bool DownContinuousPress = false;
 
-            while (!listener.EnterKeyState) {
-                if (listener.UpKeyState && (UpContinuousPress == false)) {
+            Text TempText = new Text(Tuple.Create(1,1), "");
+
+            privateBoard = Create(this, board);
+            TempText.Content = listener.TypedText.ToString();
+            privateBoard = Text.Create(TempText, privateBoard);
+            Board.Print(Board.smoothBoard(privateBoard), true);
+
+            while (!listener.GetKeyState(Keys.Enter)) {
+                privateBoard = board;
+                
+                if (listener.GetKeyState(Keys.Up) && (UpContinuousPress == false)) {
                     
                     SelectedOption++;
                     if (SelectedOption >= this.Values.Length) {
@@ -429,15 +438,17 @@ namespace ObjectList
                     }
 
                     privateBoard = Create(this, board);
+                    TempText.Content = listener.TypedText.ToString();
+                    privateBoard = Text.Create(TempText, privateBoard);
                     Board.Print(Board.smoothBoard(privateBoard), true);
                     UpContinuousPress = true;
 
-                } else if (!listener.UpKeyState) {
+                } else if (!listener.GetKeyState(Keys.Up)) {
                     UpContinuousPress = false;
                 }
                 
 
-                if (listener.DownKeyState && (DownContinuousPress == false)) {
+                if (listener.GetKeyState(Keys.Down) && (DownContinuousPress == false)) {
 
                     SelectedOption--;
                     if (SelectedOption < 0) {
@@ -445,17 +456,21 @@ namespace ObjectList
                     }
 
                     privateBoard = Create(this, board);
+                    TempText.Content = listener.TypedText.ToString();
+                    privateBoard = Text.Create(TempText, privateBoard);
                     Board.Print(Board.smoothBoard(privateBoard), true);
                     DownContinuousPress = true;
                 
-                } else if (!listener.DownKeyState) {
+                } else if (!listener.GetKeyState(Keys.Down)) {
                     DownContinuousPress = false;
                 }
             }
 
+            string TempString = listener.TypedText.ToString();
+
             listener.StopListening();
             thread.Join();
-            return SelectedOption;
+            return new Tuple<int, string>(SelectedOption, TempString);
         }
     }
     public class Board
@@ -600,11 +615,19 @@ namespace ObjectList
         public class KeyListener
         {
             // Global variables
-            public bool UpKeyState { get; private set; }
-            public bool DownKeyState { get; private set; }
-            public bool EnterKeyState { get; private set; }
-
+            private Dictionary<Keys, bool> KeyStates = new Dictionary<Keys, bool>();
             private Form Form;
+            public StringBuilder TypedText { get; private set; }
+
+            public KeyListener()
+            {
+                TypedText = new StringBuilder();
+            }
+
+            public bool GetKeyState(Keys key)
+            {
+                return KeyStates.ContainsKey(key) && KeyStates[key];
+            }
 
             public void StartListening()
             {
@@ -618,21 +641,24 @@ namespace ObjectList
                 // Attach the key event handlers
                 Form.KeyDown += (s, e) => 
                 { 
-                    if (e.KeyCode == Keys.Up)
-                        UpKeyState = true;
-                    else if (e.KeyCode == Keys.Down)
-                        DownKeyState = true;
-                    else if (e.KeyCode == Keys.Enter)
-                        EnterKeyState = true;
+                    if (!KeyStates.ContainsKey(e.KeyCode))
+                        KeyStates.Add(e.KeyCode, true);
+                    else
+                        KeyStates[e.KeyCode] = true;
+
+                    // If a key is pressed and it's not a control key or an arrow key, append it to the TypedText
+                    if (!char.IsControl((char)e.KeyCode) && e.KeyCode != Keys.Up && e.KeyCode != Keys.Down && e.KeyCode != Keys.Left && e.KeyCode != Keys.Right)
+                        TypedText.Append((char)e.KeyCode);
+                    // If the Backspace key is pressed, remove the last character from the TypedText
+                    else if (e.KeyCode == Keys.Back && TypedText.Length > 0)
+                        TypedText.Remove(TypedText.Length - 1, 1);
                 };
                 Form.KeyUp += (s, e) => 
                 { 
-                    if (e.KeyCode == Keys.Up)
-                        UpKeyState = false;
-                    else if (e.KeyCode == Keys.Down)
-                        DownKeyState = false;
-                    else if (e.KeyCode == Keys.Enter)
-                        EnterKeyState = false;
+                    if (!KeyStates.ContainsKey(e.KeyCode))
+                        KeyStates.Add(e.KeyCode, false);
+                    else
+                        KeyStates[e.KeyCode] = false;
                 };
 
                 // Run the form
