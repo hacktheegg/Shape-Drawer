@@ -407,11 +407,13 @@ namespace ObjectList
 
             return Board;
         }
-        public Tuple<int, string> Activate(Board board) {
+        public Tuple<int, string> Activate(Board board)
+        {
             Utilities.KeyListener listener = new Utilities.KeyListener();
             Board privateBoard = board;
 
-            Thread thread = new Thread(() => {
+            Thread thread = new Thread(() =>
+            {
                 listener.StartListening();
             });
 
@@ -420,57 +422,68 @@ namespace ObjectList
             bool UpContinuousPress = false;
             bool DownContinuousPress = false;
 
-            Text TempText = new Text(Tuple.Create(1,1), "");
+            Text TempText = new Text(Tuple.Create(1, 1), "");
 
             privateBoard = Create(this, board);
-            TempText.Content = listener.TypedText.ToString();
+            TempText.Content = listener.TypedTextValue; // Access TypedText using the TypedTextValue property
             privateBoard = Text.Create(TempText, privateBoard);
             Board.Print(Board.smoothBoard(privateBoard), true);
 
-            while (!listener.GetKeyState(Keys.Enter)) {
-                privateBoard = board;
-                
-                if (listener.GetKeyState(Keys.Up) && (UpContinuousPress == false)) {
-                    
+            string typedText = string.Empty; // Move this declaration outside the while loop
+
+            while (!listener.GetKeyState(Keys.Enter))
+            {
+                // Do something with the typed text
+                typedText = listener.GetTypedText();
+
+                if (listener.GetKeyState(Keys.Up) && (UpContinuousPress == false))
+                {
                     SelectedOption++;
-                    if (SelectedOption >= this.Values.Length) {
+                    if (SelectedOption >= this.Values.Length)
+                    {
                         SelectedOption = 0;
                     }
 
-                    privateBoard = Create(this, board);
-                    TempText.Content = listener.TypedText.ToString();
-                    privateBoard = Text.Create(TempText, privateBoard);
-                    Board.Print(Board.smoothBoard(privateBoard), true);
                     UpContinuousPress = true;
 
-                } else if (!listener.GetKeyState(Keys.Up)) {
+                }
+                else if (!listener.GetKeyState(Keys.Up))
+                {
                     UpContinuousPress = false;
                 }
-                
 
-                if (listener.GetKeyState(Keys.Down) && (DownContinuousPress == false)) {
+
+                if (listener.GetKeyState(Keys.Down) && (DownContinuousPress == false))
+                {
 
                     SelectedOption--;
-                    if (SelectedOption < 0) {
-                        SelectedOption = this.Values.Length-1;
+                    if (SelectedOption < 0)
+                    {
+                        SelectedOption = this.Values.Length - 1;
                     }
 
-                    privateBoard = Create(this, board);
-                    TempText.Content = listener.TypedText.ToString();
-                    privateBoard = Text.Create(TempText, privateBoard);
-                    Board.Print(Board.smoothBoard(privateBoard), true);
                     DownContinuousPress = true;
-                
-                } else if (!listener.GetKeyState(Keys.Down)) {
+
+                }
+                else if (!listener.GetKeyState(Keys.Down))
+                {
                     DownContinuousPress = false;
                 }
-            }
 
-            string TempString = listener.TypedText.ToString();
+                if (listener.GetKeyState(Keys.Down) || listener.GetKeyState(Keys.Up) || TempText.Content != typedText.ToString()) {
+                    privateBoard = Create(this, board);
+                    TempText.Content = typedText.ToString();
+                    privateBoard = Text.Create(TempText, privateBoard);
+                    Board.Print(Board.smoothBoard(privateBoard), true);
+                }
+
+                Thread.Sleep(100); // Sleep for a short duration to avoid excessive CPU usage
+
+            }
 
             listener.StopListening();
             thread.Join();
-            return new Tuple<int, string>(SelectedOption, TempString);
+            return new Tuple<int, string>(SelectedOption, typedText); // Use the corrected 'typedText' variable
         }
     }
     public class Board
@@ -614,56 +627,76 @@ namespace ObjectList
     {
         public class KeyListener
         {
-            // Global variables
             private Dictionary<Keys, bool> KeyStates = new Dictionary<Keys, bool>();
             private Form Form;
-            public StringBuilder TypedText { get; private set; }
-
-            public KeyListener()
-            {
-                TypedText = new StringBuilder();
-            }
+            private StringBuilder TypedText = new StringBuilder();
+            private readonly object lockObject = new object();
 
             public bool GetKeyState(Keys key)
             {
-                return KeyStates.ContainsKey(key) && KeyStates[key];
+                lock (lockObject)
+                {
+                    return KeyStates.ContainsKey(key) && KeyStates[key];
+                }
+            }
+
+            public string TypedTextValue // Public property to access TypedText
+            {
+                get
+                {
+                    lock (lockObject)
+                    {
+                        return TypedText.ToString();
+                    }
+                }
+            }
+
+            public string GetTypedText()
+            {
+                lock (lockObject)
+                {
+                    return TypedText.ToString();
+                }
             }
 
             public void StartListening()
             {
-                // Create a new invisible form
                 Form = new Form();
                 Form.ShowInTaskbar = false;
                 Form.FormBorderStyle = FormBorderStyle.None;
                 Form.Load += (s, e) => { Form.Size = new System.Drawing.Size(0, 0); };
                 Form.Show();
 
-                // Attach the key event handlers
-                Form.KeyDown += (s, e) => 
-                { 
-                    if (!KeyStates.ContainsKey(e.KeyCode))
-                        KeyStates.Add(e.KeyCode, true);
-                    else
-                        KeyStates[e.KeyCode] = true;
+                Form.KeyDown += (s, e) =>
+                {
+                    lock (lockObject)
+                    {
+                        if (!KeyStates.ContainsKey(e.KeyCode))
+                            KeyStates.Add(e.KeyCode, true);
+                        else
+                            KeyStates[e.KeyCode] = true;
 
-                    // If a key is pressed and it's not a control key or an arrow key, append it to the TypedText
-                    if (!char.IsControl((char)e.KeyCode) && e.KeyCode != Keys.Up && e.KeyCode != Keys.Down && e.KeyCode != Keys.Left && e.KeyCode != Keys.Right)
-                        TypedText.Append((char)e.KeyCode);
-                    // If the Backspace key is pressed, remove the last character from the TypedText
-                    else if (e.KeyCode == Keys.Back && TypedText.Length > 0)
-                        TypedText.Remove(TypedText.Length - 1, 1);
-                };
-                Form.KeyUp += (s, e) => 
-                { 
-                    if (!KeyStates.ContainsKey(e.KeyCode))
-                        KeyStates.Add(e.KeyCode, false);
-                    else
-                        KeyStates[e.KeyCode] = false;
+                        if (!char.IsControl((char)e.KeyCode) && e.KeyCode != Keys.Up && e.KeyCode != Keys.Down && e.KeyCode != Keys.Left && e.KeyCode != Keys.Right)
+                            TypedText.Append((char)e.KeyCode);
+                        else if (e.KeyCode == Keys.Back && TypedText.Length > 0)
+                            TypedText.Remove(TypedText.Length - 1, 1);
+                    }
                 };
 
-                // Run the form
+                Form.KeyUp += (s, e) =>
+                {
+                    lock (lockObject)
+                    {
+                        if (!KeyStates.ContainsKey(e.KeyCode))
+                            KeyStates.Add(e.KeyCode, false);
+                        else
+                            KeyStates[e.KeyCode] = false;
+                    }
+                };
+
                 Application.Run(Form);
             }
+
             public void StopListening()
             {
                 Form.Close();

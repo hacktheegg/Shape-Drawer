@@ -1,7 +1,0 @@
-csc /out:.\Compiled\ShapeDrawer.dll /target:library .\ShapeDrawer.cs
-
-csc /out:.\Compiled\ShapeStorageManagement.dll /target:library /r:.\Compiled\ShapeDrawer.dll /r:.\Compiled\System.Data.SQLite.dll .\ShapeStorageManagement.cs
-
-csc /out:.\Compiled\Program.exe /r:.\Compiled\ShapeDrawer.dll /r:.\Compiled\System.Data.SQLite.dll /r:.\Compiled\ShapeStorageManagement.dll .\Program.cs
-
-.\Compiled\Program.exe
