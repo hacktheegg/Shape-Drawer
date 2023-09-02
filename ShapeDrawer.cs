@@ -470,9 +470,9 @@ namespace ObjectList
                     DownContinuousPress = false;
                 }
 
-                if (listener.GetKeyState(Keys.Down) || listener.GetKeyState(Keys.Up) || TempText.Content != typedText.ToString()) {
+                if (listener.GetKeyState(Keys.Down) || listener.GetKeyState(Keys.Up) || TempText.Content != typedText.ToString().ToLower() + " ") {
                     privateBoard = Create(this, board);
-                    TempText.Content = typedText.ToString();
+                    TempText.Content = typedText.ToString().ToLower() + " ";
                     privateBoard = Text.Create(TempText, privateBoard);
                     Board.Print(Board.smoothBoard(privateBoard), true);
                 }
