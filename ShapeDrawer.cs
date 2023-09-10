@@ -366,17 +366,31 @@ namespace ObjectList
             text.Content = Console.ReadLine();
             return text;
         }
-        public static Board Create(Text Text, Board board) {
+        public static Board Create(Text Text, Board Board) {
             int i = 0;
             int j = 0;
             for (i = 0; i < Math.Floor((decimal)(Text.Content.Length/2)); i++) {
-                board.Grid[Text.OriginPoint.Item1+i][Text.OriginPoint.Item2] = (string)(Text.Content[j] + "" + Text.Content[j+1]);
+                if (
+                    Text.OriginPoint.Item1+i < Board.Width &&
+                    Text.OriginPoint.Item1+i > -1 &&
+                    Text.OriginPoint.Item2 < Board.Height &&
+                    Text.OriginPoint.Item2 > -1
+                ) {
+                    Board.Grid[Text.OriginPoint.Item1+i][Text.OriginPoint.Item2] = (string)(Text.Content[j] + "" + Text.Content[j+1]);
+                }
                 j+=2;
             }
             if (i*2 != Text.Content.Length) {
-                board.Grid[Text.OriginPoint.Item1+i][Text.OriginPoint.Item2] = (string)(Text.Content[Text.Content.Length-1] + " ");
+                if (
+                    Text.OriginPoint.Item1+i < Board.Width &&
+                    Text.OriginPoint.Item1+i > -1 &&
+                    Text.OriginPoint.Item2 < Board.Height &&
+                    Text.OriginPoint.Item2 > -1
+                ) {
+                    Board.Grid[Text.OriginPoint.Item1+i][Text.OriginPoint.Item2] = (string)(Text.Content[Text.Content.Length-1] + " ");
+                }
             }
-            return board;
+            return Board;
         }
     }
     public class Menu
@@ -407,10 +421,12 @@ namespace ObjectList
 
             return Board;
         }
-        public Tuple<int, string> Activate(Board board)
+        public Tuple<int, string> Activate(Board Board)
         {
+            Board SavedBoard = Board;
+            //SavedBoard.Width = Board.Width+1;
+
             Utilities.KeyListener listener = new Utilities.KeyListener();
-            Board privateBoard = board;
 
             Thread thread = new Thread(() =>
             {
@@ -424,10 +440,10 @@ namespace ObjectList
 
             Text TempText = new Text(Tuple.Create(1, 1), "");
 
-            privateBoard = Create(this, board);
+            Board = Create(this, Board);
             TempText.Content = listener.TypedTextValue; // Access TypedText using the TypedTextValue property
-            privateBoard = Text.Create(TempText, privateBoard);
-            Board.Print(Board.smoothBoard(privateBoard), true);
+            Board = Text.Create(TempText, Board);
+            Board.Print(Board.smoothBoard(Board), true);
 
             string typedText = string.Empty; // Move this declaration outside the while loop
 
@@ -471,18 +487,21 @@ namespace ObjectList
                 }
 
                 if (listener.GetKeyState(Keys.Down) || listener.GetKeyState(Keys.Up) || TempText.Content != typedText.ToString().ToLower() + " ") {
-                    privateBoard = Create(this, board);
+                    Board = Create(this, Board);
                     TempText.Content = typedText.ToString().ToLower() + " ";
-                    privateBoard = Text.Create(TempText, privateBoard);
-                    Board.Print(Board.smoothBoard(privateBoard), true);
+                    Board = Text.Create(TempText, Board);
+                    Board.Print(Board.smoothBoard(Board), true);
                 }
 
-                Thread.Sleep(100); // Sleep for a short duration to avoid excessive CPU usage
+                Thread.Sleep(50); // Sleep for a short duration to avoid excessive CPU usage
 
             }
 
             listener.StopListening();
             thread.Join();
+
+            Board = SavedBoard;
+
             return new Tuple<int, string>(SelectedOption, typedText); // Use the corrected 'typedText' variable
         }
     }
@@ -658,6 +677,15 @@ namespace ObjectList
                     return TypedText.ToString();
                 }
             }
+
+            public void ClearTypedText()
+            {
+                lock (lockObject)
+                {
+                    TypedText.Clear();
+                }
+            }
+
 
             public void StartListening()
             {
