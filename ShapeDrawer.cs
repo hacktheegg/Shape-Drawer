@@ -393,7 +393,7 @@ namespace ObjectList
             return Board;
         }
     }
-    public class Menu
+    /* public class Menu
     {
         public string[] Values;
         private int SelectedOption = 0;
@@ -504,7 +504,7 @@ namespace ObjectList
 
             return new Tuple<int, string>(SelectedOption, typedText); // Use the corrected 'typedText' variable
         }
-    }
+    } */
     public class Board
     {
         public int Width;
@@ -644,7 +644,7 @@ namespace ObjectList
     }
     public class Utilities
     {
-        public class KeyListener
+        /* public class KeyListener
         {
             private Dictionary<Keys, bool> KeyStates = new Dictionary<Keys, bool>();
             private Form Form;
@@ -730,6 +730,6 @@ namespace ObjectList
                 Form.Close();
                 Form.Dispose();
             }
-        }
+        } */
     }
 }
