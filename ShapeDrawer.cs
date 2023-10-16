@@ -547,23 +547,24 @@ namespace ObjectList
         }
         public static void Print(Board board, bool ClearConsole = false)
         {
-            if (ClearConsole) {
-                Console.Clear();
-            }
-
+            string TempString = "";
             int x = 0;
             for (int y = board.Height-1; y >= 0; y--) {
                 for (x = 0; x < board.Width; x++) {
                     if (board.Grid[x][y] == null)
                     {
-                        Console.Write("  ");
+                        TempString = TempString + "  ";
                     } else
                     {
-                        Console.Write(board.Grid[x][y]);
+                        TempString = TempString + board.Grid[x][y];
                     }
                 }
-                Console.WriteLine("");
+                TempString = TempString + "\n";
             }
+            if (ClearConsole) {
+                Console.Clear();
+            }
+            Console.WriteLine(TempString);
         }
         public static Board smoothBoard(Board Board)
         {
